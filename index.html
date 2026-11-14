@@ -178,6 +178,7 @@
   .btn-purple { background-color: var(--purple); }
   .btn-gray { background-color: var(--gray); }
   .btn-red { background-color: var(--red-btn); }
+  .btn-gold { background-color: #d99b26; }
 
   /* بخش جستجو و فیلتر */
   .search-card {
@@ -364,9 +365,20 @@
     align-items: center;
   }
   .modal-text {
-    font-size: 15px;
+    font-size: 14px;
     text-align: center;
-    padding: 8px 0;
+    padding: 6px 0;
+    line-height: 1.6;
+  }
+  .dup-details {
+    background-color: var(--row-a);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: right;
+    border-right: 3px solid var(--gold);
+    line-height: 1.7;
   }
   .modal-buttons {
     display: flex;
@@ -427,7 +439,7 @@
     <button class="more-btn" onclick="openMoreModal()">☰ بیشتر</button>
     <div class="header-titles">
       <h1>مدیریت سفرهای راننده</h1>
-      <p id="countLabel">مجموع سفرها: 0</p>
+      <p id="countLabel">مجموع کل سفرها: 0</p>
     </div>
     <div style="width: 68px;"></div>
   </div>
@@ -495,6 +507,19 @@
     </div>
   </div>
 
+  <!-- پنجره هشدار شماره فاکتور تکراری -->
+  <div class="modal-overlay" id="duplicateModal">
+    <div class="modal-box">
+      <div class="modal-title">⚠️ شماره فاکتور تکراری</div>
+      <div class="modal-text">این شماره فاکتور قبلاً ثبت شده است. آیا مطمئنید می‌خواهید دوباره ثبت شود؟</div>
+      <div class="dup-details" id="duplicateInfo"></div>
+      <div class="modal-buttons">
+        <button class="btn btn-gray" onclick="closeDuplicateModal()">انصراف</button>
+        <button class="btn btn-gold" onclick="confirmDuplicateAdd()">بله، ثبت شود</button>
+      </div>
+    </div>
+  </div>
+
   <!-- پنجره بیشتر (آمار و جمع ماهانه) -->
   <div class="modal-overlay" id="moreModal">
     <div class="modal-box">
@@ -524,7 +549,32 @@
   };
 
   let currentSource = "اسنپ";
-  let currentFilter = "همه"; // 'همه' | 'اسنپ' | 'سایت' | 'مغازه'
+  let currentFilter = "همه";
+  let pendingTrip = null;
+
+  // محاسبه تاریخ شمسی روز به صورت خودکار (مثلا 1405/08/23)
+  function getTodayJalali() {
+    const now = new Date();
+    let gy = now.getFullYear();
+    const gm = now.getMonth() + 1;
+    const gd = now.getDate();
+
+    const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    let gy2 = (gm > 2) ? (gy + 1) : gy;
+    let days = 355666 + (365 * gy) + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+    let jy = -1595 + (33 * Math.floor(days / 12053));
+    days %= 12053;
+    jy += 4 * Math.floor(days / 1461);
+    days %= 1461;
+    if (days > 365) {
+      jy += Math.floor((days - 1) / 365);
+      days = (days - 1) % 365;
+    }
+    let jm = (days < 186) ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30);
+    let jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
+
+    return `${jy}/${String(jm).padStart(2, '0')}/${String(jd).padStart(2, '0')}`;
+  }
 
   function selectSource(val, btnEl) {
     currentSource = val;
@@ -613,6 +663,13 @@
     this.value = toEnglishDigits(this.value);
   });
 
+  // ذخیره خودکار نام راننده به محض تایپ تا دائم بماند
+  document.getElementById('nameInput').addEventListener('input', function() {
+    try {
+      localStorage.setItem('saved_driver_name', this.value);
+    } catch (e) {}
+  });
+
   let trips = [];
   let selectedIndices = new Set();
   let viewDate = null;
@@ -622,6 +679,12 @@
     try {
       const data = localStorage.getItem('driver_trips_data');
       if (data) trips = JSON.parse(data);
+
+      // بازیابی نام راننده ذخیره‌شده
+      const savedName = localStorage.getItem('saved_driver_name');
+      if (savedName) {
+        document.getElementById('nameInput').value = savedName;
+      }
     } catch (e) {
       trips = [];
     }
@@ -832,13 +895,50 @@
       return;
     }
 
-    trips.push({
+    const newTrip = {
       name: name,
       source: currentSource,
       date: date,
       invoice: invoice,
       cost: parseInt(costText, 10)
-    });
+    };
+
+    // بررسی تکراری بودن شماره فاکتور
+    const existingTrip = trips.find(t => toEnglishDigits(String(t.invoice)).trim() === invoice);
+    if (existingTrip) {
+      pendingTrip = newTrip;
+      document.getElementById('duplicateInfo').innerHTML = `
+        <b>مشخصات فاکتور قبلی (${invoice}):</b><br>
+        • راننده: ${existingTrip.name}<br>
+        • نوع: ${existingTrip.source || 'اسنپ'} | تاریخ: <span class="td-num">${existingTrip.date}</span><br>
+        • هزینه: <span class="td-num" style="color:#4ade80;">${money(existingTrip.cost)}</span>
+      `;
+      document.getElementById('duplicateModal').style.display = 'flex';
+      return;
+    }
+
+    finalizeAddTrip(newTrip);
+  }
+
+  function closeDuplicateModal() {
+    pendingTrip = null;
+    document.getElementById('duplicateModal').style.display = 'none';
+  }
+
+  function confirmDuplicateAdd() {
+    if (!pendingTrip) return;
+    const tripToSave = pendingTrip;
+    closeDuplicateModal();
+    finalizeAddTrip(tripToSave);
+  }
+
+  function finalizeAddTrip(tripObj) {
+    // ذخیره نام راننده به صورت دائمی
+    try {
+      localStorage.setItem('saved_driver_name', tripObj.name);
+    } catch (e) {}
+
+    trips.push(tripObj);
 
     if (!saveTrips()) {
       setMessage("خطا در ذخیره‌سازی اطلاعات", true);
@@ -849,12 +949,11 @@
     document.getElementById('invoiceInput').value = '';
     document.getElementById('costInput').value = '';
 
-    // اگر فیلتر روی گزینه دیگری غیر از سفارش فعلی بود، روی «همه» برگردد تا سفر جدید دیده شود
-    if (currentFilter !== "همه" && currentFilter !== currentSource) {
+    if (currentFilter !== "همه" && currentFilter !== tripObj.source) {
       setFilter("همه");
     }
 
-    document.getElementById('searchInput').value = date;
+    document.getElementById('searchInput').value = tripObj.date;
     searchDate();
   }
 
@@ -966,7 +1065,6 @@
     }
   }
 
-  // خروجی جمع ماهانه به نوت
   async function exportMonthlyToNotes() {
     const months = getMonthlyData();
     const sortedMonths = Object.keys(months).sort().reverse();
@@ -986,7 +1084,6 @@
     await shareOrCopyText(text, "گزارش ماهانه سفرها");
   }
 
-  // خروجی سفرها به نوت (با رعایت فیلتر فعال)
   async function exportToNotes() {
     if (trips.length === 0) {
       setMessage("اطلاعاتی برای خروجی گرفتن وجود ندارد", true);
@@ -1053,7 +1150,8 @@
     await shareOrCopyText(text, "گزارش سفرها");
   }
 
-  // راه‌اندازی اولیه
+  // راه‌اندازی اولیه و تنظیم تاریخ روز
+  document.getElementById('dateInput').value = getTodayJalali();
   loadTrips();
   updateCount();
   renderAllTrips();
