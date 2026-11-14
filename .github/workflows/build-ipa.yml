@@ -1,0 +1,106 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create iOS App Source
+        run: |
+          mkdir -p AppBuild
+          cat << 'EOF' > AppBuild/App.swift
+          import SwiftUI
+          import WebKit
+
+          struct WebView: UIViewRepresentable {
+              func makeUIView(context: Context) -> WKWebView {
+                  let config = WKWebViewConfiguration()
+                  config.websiteDataStore = .default()
+                  let webView = WKWebView(frame: .zero, configuration: config)
+                  webView.isOpaque = false
+                  webView.backgroundColor = UIColor(red: 0.06, green: 0.08, blue: 0.12, alpha: 1.0)
+                  webView.scrollView.backgroundColor = UIColor(red: 0.06, green: 0.08, blue: 0.12, alpha: 1.0)
+                  webView.scrollView.bounces = false
+                  if let url = Bundle.main.url(forResource: "index", withExtension: "html") {
+                      webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
+                  }
+                  return webView
+              }
+              func updateUIView(_ uiView: WKWebView, context: Context) {}
+          }
+
+          @main
+          struct DriverTripsApp: App {
+              var body: some Scene {
+                  WindowGroup {
+                      WebView()
+                          .ignoresSafeArea(.all, edges: .bottom)
+                          .preferredColorScheme(.dark)
+                  }
+              }
+          }
+          EOF
+
+          cat << 'EOF' > AppBuild/Info.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleExecutable</key>
+              <string>DriverTrips</string>
+              <key>CFBundleIdentifier</key>
+              <string>com.drivertrips.app</string>
+              <key>CFBundleName</key>
+              <string>مدیریت سفرها</string>
+              <key>CFBundleDisplayName</key>
+              <string>مدیریت سفرها</string>
+              <key>CFBundleVersion</key>
+              <string>1.0</string>
+              <key>CFBundleShortVersionString</key>
+              <string>1.0</string>
+              <key>CFBundlePackageType</key>
+              <string>APPL</string>
+              <key>LSRequiresIPhoneOS</key>
+              <true/>
+              <key>UIDeviceFamily</key>
+              <array>
+                  <integer>1</integer>
+              </array>
+              <key>UILaunchScreen</key>
+              <dict/>
+              <key>UISupportedInterfaceOrientations</key>
+              <array>
+                  <string>UIInterfaceOrientationPortrait</string>
+              </array>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Compile and Package IPA
+        run: |
+          SDK_PATH=$(xcrun --sdk iphoneos --show-sdk-path)
+          mkdir -p Payload/DriverTrips.app
+          
+          xcrun -sdk iphoneos swiftc AppBuild/App.swift \
+            -target arm64-apple-ios15.0 \
+            -sdk "$SDK_PATH" \
+            -o Payload/DriverTrips.app/DriverTrips
+            
+          cp AppBuild/Info.plist Payload/DriverTrips.app/Info.plist
+          cp index.html Payload/DriverTrips.app/index.html
+          
+          codesign --force --sign - --timestamp=none Payload/DriverTrips.app
+          zip -r DriverTrips.ipa Payload
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DriverTrips-IPA
+          path: DriverTrips.ipa
