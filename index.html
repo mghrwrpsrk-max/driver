@@ -42,39 +42,61 @@
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    padding: 12px;
-    gap: 10px;
+    padding: 10px 12px;
+    gap: 8px;
     overflow: hidden;
     direction: rtl;
   }
 
-  /* سرصفحه */
+  /* سرصفحه و دکمه بیشتر */
   .header {
-    height: 54px;
+    height: 52px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
     flex-shrink: 0;
   }
+  .header-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
   .header h1 {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: bold;
   }
   .header p {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--muted);
     margin-top: 2px;
+  }
+  .more-btn {
+    background-color: var(--input-bg);
+    border: 1px solid var(--accent);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .more-btn:active {
+    filter: brightness(0.75);
   }
 
   /* کارت‌ها */
   .card {
     background-color: var(--card);
     border-radius: 14px;
-    padding: 12px;
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
   }
 
   /* ورودی‌ها */
@@ -83,9 +105,9 @@
     border: none;
     outline: none;
     color: var(--white);
-    font-size: 15px;
-    padding: 10px 12px;
-    height: 44px;
+    font-size: 14px;
+    padding: 8px 12px;
+    height: 40px;
     width: 100%;
     border-radius: 8px;
     user-select: text;
@@ -107,15 +129,41 @@
     gap: 8px;
   }
 
+  /* انتخاب‌گر سه گزینه‌ای (اسنپ / سایت / مغازه) */
+  .source-selector {
+    display: flex;
+    background-color: var(--input-bg);
+    border-radius: 10px;
+    padding: 4px;
+    gap: 4px;
+    height: 40px;
+  }
+  .source-opt {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .source-opt.active {
+    background-color: var(--accent);
+    color: var(--white);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
   /* دکمه‌ها */
   .btn {
     border: none;
     outline: none;
-    border-radius: 12px;
+    border-radius: 11px;
     color: var(--white);
     font-size: 15px;
     font-weight: bold;
-    height: 46px;
+    height: 42px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -134,12 +182,12 @@
   /* بخش جستجو */
   .search-card {
     flex-direction: row;
-    height: 68px;
+    height: 60px;
     align-items: center;
     flex-shrink: 0;
   }
-  .search-card input { width: 46%; }
-  .search-card .btn { width: 27%; height: 44px; font-size: 14px; }
+  .search-card input { width: 46%; height: 40px; }
+  .search-card .btn { width: 27%; height: 40px; font-size: 13px; }
 
   /* کارت جدول */
   .table-card {
@@ -150,13 +198,13 @@
   }
   .table-head {
     display: flex;
-    height: 28px;
+    height: 26px;
     align-items: center;
     flex-shrink: 0;
   }
   .th {
     color: var(--gold);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
     text-align: center;
   }
@@ -172,7 +220,7 @@
   .t-row {
     display: flex;
     align-items: center;
-    min-height: 42px;
+    min-height: 40px;
     border-radius: 8px;
     cursor: pointer;
     flex-shrink: 0;
@@ -183,16 +231,27 @@
 
   .td {
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 4px;
+    padding: 0 3px;
   }
   .td-num {
     direction: ltr;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
+
+  .badge-type {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+  }
+  .badge-snapp { background: rgba(38, 173, 115, 0.2); color: #4ade80; }
+  .badge-site { background: rgba(64, 133, 245, 0.2); color: #60a5fa; }
+  .badge-shop { background: rgba(255, 209, 89, 0.2); color: #fcd34d; }
 
   .empty-msg {
     color: var(--muted);
@@ -205,18 +264,18 @@
   .bottom-actions {
     display: flex;
     gap: 6px;
-    height: 44px;
+    height: 42px;
     flex-shrink: 0;
   }
   .bottom-actions .btn {
-    height: 44px;
+    height: 42px;
     font-size: 13px;
   }
 
   /* کارت جمع کل */
   .total-card {
     background-color: var(--input-bg);
-    height: 52px;
+    height: 48px;
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -225,31 +284,33 @@
     padding: 0 10px;
   }
   .total-label {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
   }
 
-  /* پنجره تایید حذف */
+  /* مودال‌ها (حذف و جمع ماهانه) */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.72);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 999;
+    padding: 16px;
   }
   .modal-box {
     background-color: var(--card);
     border: 1px solid var(--gray);
-    border-radius: 14px;
-    width: 85%;
-    max-width: 340px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 370px;
+    max-height: 82dvh;
     padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .modal-title {
     font-size: 16px;
@@ -257,6 +318,9 @@
     color: var(--gold);
     border-bottom: 1px solid var(--gray);
     padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .modal-text {
     font-size: 15px;
@@ -269,25 +333,79 @@
   }
   .modal-buttons .btn {
     flex: 1;
-    height: 44px;
+    height: 42px;
+  }
+
+  /* لیست جمع ماهانه در مودال بیشتر */
+  .monthly-list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 55dvh;
+    padding-left: 2px;
+  }
+  .month-card {
+    background-color: var(--row-a);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-right: 3px solid var(--accent);
+  }
+  .month-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .month-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--white);
+  }
+  .month-total {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--green);
+  }
+  .month-sub {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 5px;
   }
 </style>
 </head>
 <body>
 
-  <!-- عنوان -->
+  <!-- سرصفحه به همراه دکمه بیشتر -->
   <div class="header">
-    <h1>مدیریت سفرهای راننده</h1>
-    <p id="countLabel">مجموع سفرها: 0</p>
+    <button class="more-btn" onclick="openMoreModal()">☰ بیشتر</button>
+    <div class="header-titles">
+      <h1>مدیریت سفرهای راننده</h1>
+      <p id="countLabel">مجموع سفرها: 0</p>
+    </div>
+    <div style="width: 68px;"></div>
   </div>
 
   <!-- کارت ثبت سفر -->
   <div class="card" style="flex-shrink: 0;">
     <input type="text" id="nameInput" placeholder="نام راننده">
     <div class="row-inputs">
-      <input type="text" id="dateInput" class="num-input" inputmode="numeric" placeholder="تاریخ (مثلا 1405/08/23)" style="width: 52%;">
+      <input type="text" id="dateInput" class="num-input" inputmode="numeric" placeholder="تاریخ (1405/08/23)" style="width: 52%;">
       <input type="text" id="invoiceInput" class="num-input" placeholder="شماره فاکتور" style="width: 48%;">
     </div>
+
+    <!-- انتخاب نوع: اسنپ / سایت / مغازه -->
+    <div class="source-selector">
+      <button type="button" class="source-opt active" onclick="selectSource('اسنپ', this)">اسنپ</button>
+      <button type="button" class="source-opt" onclick="selectSource('سایت', this)">سایت</button>
+      <button type="button" class="source-opt" onclick="selectSource('مغازه', this)">مغازه</button>
+    </div>
+
     <input type="text" id="costInput" class="num-input" inputmode="numeric" placeholder="هزینه ارسال (کرایه)">
     <button class="btn btn-green" onclick="addTrip()">ثبت سفر</button>
   </div>
@@ -315,7 +433,7 @@
     <span class="total-label" id="totalLabel">همه سفرها</span>
   </div>
 
-  <!-- پاپ‌آپ تایید حذف -->
+  <!-- پنجره تایید حذف -->
   <div class="modal-overlay" id="confirmModal">
     <div class="modal-box">
       <div class="modal-title">تأیید حذف</div>
@@ -327,12 +445,41 @@
     </div>
   </div>
 
+  <!-- پنجره بیشتر (آمار و جمع ماهانه) -->
+  <div class="modal-overlay" id="moreModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span>📊 گزارش و جمع ماهانه</span>
+      </div>
+      <div class="monthly-list" id="monthlyContainer"></div>
+      <div class="modal-buttons">
+        <button class="btn btn-purple" onclick="exportMonthlyToNotes()">خروجی ماهانه به نوت</button>
+        <button class="btn btn-gray" onclick="closeMoreModal()">بستن</button>
+      </div>
+    </div>
+  </div>
+
 <script>
   const THOUSAND_SEP = ",";
   const DIGITS_MAP = {
     '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9',
     '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'
   };
+
+  const PERSIAN_MONTHS = {
+    "01": "فروردین", "02": "اردیبهشت", "03": "خرداد",
+    "04": "تیر", "05": "مرداد", "06": "شهریور",
+    "07": "مهر", "08": "آبان", "09": "آذر",
+    "10": "دی", "11": "بهمن", "12": "اسفند"
+  };
+
+  let currentSource = "اسنپ";
+
+  function selectSource(val, btnEl) {
+    currentSource = val;
+    document.querySelectorAll('.source-opt').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
 
   function toEnglishDigits(str) {
     return String(str).replace(/[۰-۹٠-٩]/g, d => DIGITS_MAP[d]);
@@ -344,6 +491,20 @@
 
   function money(n) {
     return Number(n).toLocaleString('en-US').replace(/,/g, THOUSAND_SEP);
+  }
+
+  function getMonthLabel(ym) {
+    const parts = ym.split('/');
+    if (parts.length === 2 && PERSIAN_MONTHS[parts[1]]) {
+      return `${PERSIAN_MONTHS[parts[1]]} ${parts[0]}`;
+    }
+    return ym;
+  }
+
+  function getBadgeClass(source) {
+    if (source === 'سایت') return 'badge-site';
+    if (source === 'مغازه') return 'badge-shop';
+    return 'badge-snapp';
   }
 
   function setupDateInput(el) {
@@ -369,7 +530,6 @@
   setupDateInput(document.getElementById('searchInput'));
   setupMoneyInput(document.getElementById('costInput'));
 
-  // تبدیل خودکار اعداد فارسی در شماره فاکتور به انگلیسی
   document.getElementById('invoiceInput').addEventListener('input', function() {
     this.value = toEnglishDigits(this.value);
   });
@@ -377,7 +537,7 @@
   let trips = [];
   let selectedIndices = new Set();
   let viewDate = null;
-  let currentMode = 'trips'; // 'trips' یا 'daily'
+  let currentMode = 'trips';
 
   function loadTrips() {
     try {
@@ -425,7 +585,13 @@
     btn.textContent = n === 0 ? "حذف انتخاب‌شده" : `حذف (${n})`;
   }
 
-  const TRIP_COLS = [["راننده", 0.28], ["تاریخ", 0.26], ["فاکتور", 0.22], ["هزینه", 0.24]];
+  const TRIP_COLS = [
+    ["راننده", 0.22],
+    ["نوع", 0.16],
+    ["تاریخ", 0.24],
+    ["فاکتور", 0.16],
+    ["هزینه", 0.22]
+  ];
   const DAY_COLS = [["تاریخ", 0.36], ["تعداد سفر", 0.22], ["جمع کل", 0.42]];
 
   function showTable(items) {
@@ -445,13 +611,15 @@
     }
 
     items.forEach((item, i) => {
+      const src = item.trip.source || 'اسنپ';
       const row = document.createElement('div');
       row.className = 't-row ' + (i % 2 === 0 ? 'row-a' : 'row-b');
       row.innerHTML = `
-        <div class="td" style="width:28%; font-size:14px; color:var(--white);">${item.trip.name}</div>
-        <div class="td td-num" style="width:26%; color:var(--muted);">${toEnglishDigits(item.trip.date)}</div>
-        <div class="td td-num" style="width:22%; color:var(--muted);">${toEnglishDigits(item.trip.invoice || '')}</div>
-        <div class="td td-num" style="width:24%; color:var(--green); font-weight:bold;">${money(item.trip.cost)}</div>
+        <div class="td" style="width:22%; color:var(--white);">${item.trip.name}</div>
+        <div class="td" style="width:16%;"><span class="badge-type ${getBadgeClass(src)}">${src}</span></div>
+        <div class="td td-num" style="width:24%; color:var(--muted);">${toEnglishDigits(item.trip.date)}</div>
+        <div class="td td-num" style="width:16%; color:var(--muted);">${toEnglishDigits(item.trip.invoice || '')}</div>
+        <div class="td td-num" style="width:22%; color:var(--green); font-weight:bold;">${money(item.trip.cost)}</div>
       `;
       row.onclick = () => {
         if (selectedIndices.has(item.originalIndex)) {
@@ -515,6 +683,59 @@
     setMessage(`جمع کل همه روزها: ${money(grand)} (${sortedDates.length} روز)`);
   }
 
+  // محاسبه و نمایش جمع ماهانه در منوی بیشتر
+  function getMonthlyData() {
+    const months = {};
+    trips.forEach(t => {
+      const d = normDate(t.date);
+      const ym = d.length >= 7 ? d.slice(0, 7) : "نامشخص";
+      const src = t.source || "اسنپ";
+      if (!months[ym]) {
+        months[ym] = { count: 0, total: 0, snapp: 0, site: 0, shop: 0 };
+      }
+      months[ym].count += 1;
+      months[ym].total += t.cost;
+      if (src === "اسنپ") months[ym].snapp += t.cost;
+      else if (src === "سایت") months[ym].site += t.cost;
+      else if (src === "مغازه") months[ym].shop += t.cost;
+    });
+    return months;
+  }
+
+  function openMoreModal() {
+    const container = document.getElementById('monthlyContainer');
+    container.innerHTML = '';
+    const months = getMonthlyData();
+    const sortedMonths = Object.keys(months).sort().reverse();
+
+    if (sortedMonths.length === 0) {
+      container.innerHTML = '<div class="empty-msg">هنوز سفری ثبت نشده است</div>';
+    } else {
+      sortedMonths.forEach(ym => {
+        const m = months[ym];
+        const card = document.createElement('div');
+        card.className = 'month-card';
+        card.innerHTML = `
+          <div class="month-top">
+            <span class="month-name">${getMonthLabel(ym)} <span style="color:var(--muted); font-size:12px;">(${m.count} سفر)</span></span>
+            <span class="month-total td-num">${money(m.total)}</span>
+          </div>
+          <div class="month-sub">
+            <span>اسنپ: <b class="td-num" style="color:#4ade80;">${money(m.snapp)}</b></span>
+            <span>سایت: <b class="td-num" style="color:#60a5fa;">${money(m.site)}</b></span>
+            <span>مغازه: <b class="td-num" style="color:#fcd34d;">${money(m.shop)}</b></span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    document.getElementById('moreModal').style.display = 'flex';
+  }
+
+  function closeMoreModal() {
+    document.getElementById('moreModal').style.display = 'none';
+  }
+
   function addTrip() {
     const name = document.getElementById('nameInput').value.trim();
     const date = normDate(document.getElementById('dateInput').value);
@@ -532,6 +753,7 @@
 
     trips.push({
       name: name,
+      source: currentSource,
       date: date,
       invoice: invoice,
       cost: parseInt(costText, 10)
@@ -621,7 +843,51 @@
     }
   }
 
-  // خروجی گرفتن برای برنامه Notes آیفون
+  async function shareOrCopyText(text, title) {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: title, text: text });
+        setMessage("گزارش آماده ذخیره در نوت شد");
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      setMessage("متن گزارش کپی شد؛ در برنامه نوت Paste کنید");
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setMessage("متن گزارش کپی شد؛ در برنامه نوت Paste کنید");
+    }
+  }
+
+  // خروجی جمع ماهانه به نوت
+  async function exportMonthlyToNotes() {
+    const months = getMonthlyData();
+    const sortedMonths = Object.keys(months).sort().reverse();
+    if (sortedMonths.length === 0) return;
+
+    let text = "📊 گزارش جمع ماهانه سفرها\n━━━━━━━━━━━━━━━\n";
+    let grand = 0;
+    sortedMonths.forEach(ym => {
+      const m = months[ym];
+      grand += m.total;
+      text += `🗓 ${getMonthLabel(ym)} (${m.count} سفر) ⬅️ جمع: ${money(m.total)}\n`;
+      text += `   ▫️ اسنپ: ${money(m.snapp)} | سایت: ${money(m.site)} | مغازه: ${money(m.shop)}\n`;
+      text += "───────────────\n";
+    });
+    text += `💰 جمع کل تمام ماه‌ها: ${money(grand)}`;
+    closeMoreModal();
+    await shareOrCopyText(text, "گزارش ماهانه سفرها");
+  }
+
+  // خروجی سفرها به نوت
   async function exportToNotes() {
     if (trips.length === 0) {
       setMessage("اطلاعاتی برای خروجی گرفتن وجود ندارد", true);
@@ -640,8 +906,7 @@
       });
       const sortedDates = Object.keys(days).sort().reverse();
       let grand = 0;
-      text += "📊 گزارش جمع روزانه سفرها\n";
-      text += "━━━━━━━━━━━━━━━\n";
+      text += "📊 گزارش جمع روزانه سفرها\n━━━━━━━━━━━━━━━\n";
       sortedDates.forEach(d => {
         const [count, total] = days[d];
         grand += total;
@@ -670,43 +935,17 @@
       }
 
       let total = 0;
-      text += title + "\n";
-      text += "━━━━━━━━━━━━━━━\n";
+      text += title + "\n━━━━━━━━━━━━━━━\n";
       listToExport.forEach((t, i) => {
         total += t.cost;
-        text += `${i + 1}. راننده: ${t.name} | تاریخ: ${normDate(t.date)} | فاکتور: ${toEnglishDigits(t.invoice)} | هزینه: ${money(t.cost)}\n`;
+        const src = t.source || "اسنپ";
+        text += `${i + 1}. راننده: ${t.name} | نوع: ${src} | تاریخ: ${normDate(t.date)} | فاکتور: ${toEnglishDigits(t.invoice)} | هزینه: ${money(t.cost)}\n`;
       });
       text += "━━━━━━━━━━━━━━━\n";
       text += `💰 جمع کل هزینه: ${money(total)}`;
     }
 
-    // باز کردن منوی اشتراک‌گذاری آیفون برای ارسال مستقیم به Notes
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'گزارش سفرها',
-          text: text
-        });
-        setMessage("گزارش آماده ذخیره در نوت شد");
-        return;
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-      }
-    }
-
-    // در صورت بسته بودن اشتراک‌گذاری، کپی در کلیپ‌بورد گوشی
-    try {
-      await navigator.clipboard.writeText(text);
-      setMessage("متن گزارش کپی شد؛ در برنامه نوت Paste کنید");
-    } catch (e) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      setMessage("متن گزارش کپی شد؛ در برنامه نوت Paste کنید");
-    }
+    await shareOrCopyText(text, "گزارش سفرها");
   }
 
   // راه‌اندازی اولیه
