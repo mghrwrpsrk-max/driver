@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Driver Trips">
+<title>Driver Trips</title>
+<style>
+  :root {
+    --bg: #0f141f;
+    --card: #1c2433;
+    --input-bg: #293045;
+    --accent: #4085f5;
+    --green: #26ad73;
+    --gray: #4d576e;
+    --row-a: #242b3d;
+    --row-b: #1f2636;
+    --white: #ffffff;
+    --muted: #9eabbf;
+    --red: #ff7373;
+    --gold: #ffd159;
+    --selected: #8c3847;
+    --red-btn: #cc4752;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Tahoma, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--white);
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 10px;
+    overflow: hidden;
+    direction: ltr;
+  }
+
+  /* Header */
+  .header {
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .header h1 {
+    font-size: 21px;
+    font-weight: bold;
+  }
+  .header p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Card */
+  .card {
+    background-color: var(--card);
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Inputs */
+  input {
+    background-color: var(--input-bg);
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: 16px;
+    padding: 10px 12px;
+    height: 44px;
+    width: 100%;
+    border-radius: 6px;
+    user-select: text;
+    caret-color: var(--accent);
+  }
+  input::placeholder {
+    color: var(--muted);
+  }
+
+  .row-inputs {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Buttons */
+  .btn {
+    border: none;
+    outline: none;
+    border-radius: 12px;
+    color: var(--white);
+    font-size: 16px;
+    font-weight: bold;
+    height: 46px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.1s;
+  }
+  .btn:active {
+    filter: brightness(0.7);
+  }
+  .btn-green { background-color: var(--green); }
+  .btn-accent { background-color: var(--accent); }
+  .btn-gray { background-color: var(--gray); }
+  .btn-red { background-color: var(--red-btn); }
+
+  /* Search Section */
+  .search-card {
+    flex-direction: row;
+    height: 68px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .search-card input { width: 46%; }
+  .search-card .btn { width: 27%; height: 44px; font-size: 15px; }
+
+  /* Table Card */
+  .table-card {
+    flex: 1;
+    min-height: 0;
+    padding: 10px;
+    gap: 6px;
+  }
+  .table-head {
+    display: flex;
+    height: 28px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .th {
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 2px;
+  }
+
+  .t-row {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .row-a { background-color: var(--row-a); }
+  .row-b { background-color: var(--row-b); }
+  .row-selected { background-color: var(--selected) !important; }
+
+  .td {
+    text-align: center;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+  }
+
+  .empty-msg {
+    color: var(--muted);
+    text-align: center;
+    height: 44px;
+    line-height: 44px;
+    font-size: 15px;
+  }
+
+  .bottom-actions {
+    display: flex;
+    gap: 8px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+  .bottom-actions .btn {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  /* Total Footer */
+  .total-card {
+    background-color: var(--input-bg);
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .total-label {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* Popup Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  .modal-box {
+    background-color: var(--card);
+    border: 1px solid var(--gray);
+    border-radius: 14px;
+    width: 85%;
+    max-width: 340px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .modal-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--gold);
+    border-bottom: 1px solid var(--gray);
+    padding-bottom: 8px;
+  }
+  .modal-text {
+    font-size: 16px;
+    text-align: center;
+    padding: 8px 0;
+  }
+  .modal-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  .modal-buttons .btn {
+    flex: 1;
+    height: 44px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- عنوان -->
+  <div class="header">
+    <h1>Driver Trips</h1>
+    <p id="countLabel">Total trips 0</p>
+  </div>
+
+  <!-- کارت ثبت سفر -->
+  <div class="card" style="flex-shrink: 0;">
+    <input type="text" id="nameInput" placeholder="Driver name">
+    <div class="row-inputs">
+      <input type="text" id="dateInput" inputmode="numeric" placeholder="Shipping date" style="width: 50%;">
+      <input type="text" id="invoiceInput" placeholder="Invoice number" style="width: 50%;">
+    </div>
+    <input type="text" id="costInput" inputmode="numeric" placeholder="Shipping cost">
+    <button class="btn btn-green" onclick="addTrip()">Add trip</button>
+  </div>
+
+  <!-- کارت جستجو -->
+  <div class="card search-card">
+    <input type="text" id="searchInput" inputmode="numeric" placeholder="Date to search">
+    <button class="btn btn-accent" onclick="searchDate()">Search</button>
+    <button class="btn btn-gray" onclick="showAll()">Show all</button>
+  </div>
+
+  <!-- کارت جدول -->
+  <div class="card table-card">
+    <div class="table-head" id="tableHead"></div>
+    <div class="scroll-area" id="rowsContainer"></div>
+    <div class="bottom-actions">
+      <button class="btn btn-accent" style="width: 42%;" onclick="showDaily()">Daily totals</button>
+      <button class="btn btn-red" id="deleteBtn" style="width: 58%;" onclick="askDelete()">Delete selected</button>
+    </div>
+  </div>
+
+  <!-- کارت جمع هزینه -->
+  <div class="total-card">
+    <span class="total-label" id="totalLabel">All trips</span>
+  </div>
+
+  <!-- پاپ‌آپ تایید حذف -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <div class="modal-title">Confirm</div>
+      <div class="modal-text" id="confirmText">Delete selected trip(s)?</div>
+      <div class="modal-buttons">
+        <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-red" onclick="deleteSelected()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const THOUSAND_SEP = ",";
+  const DIGITS_MAP = {
+    '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9',
+    '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'
+  };
+
+  function toEnglishDigits(str) {
+    return String(str).replace(/[۰-۹٠-٩]/g, d => DIGITS_MAP[d]);
+  }
+
+  function normDate(text) {
+    return toEnglishDigits(text).trim().replace(/-/g, "/");
+  }
+
+  function money(n) {
+    return Number(n).toLocaleString('en-US').replace(/,/g, THOUSAND_SEP);
+  }
+
+  // فرمت خودکار تاریخ: 14050823 -> 1405/08/23
+  function setupDateInput(el) {
+    el.addEventListener('input', function() {
+      let raw = toEnglishDigits(this.value);
+      let digits = raw.replace(/[^0-9]/g, '').slice(0, 8);
+      let formatted = digits.slice(0, 4);
+      if (digits.length > 4) formatted += '/' + digits.slice(4, 6);
+      if (digits.length > 6) formatted += '/' + digits.slice(6, 8);
+      this.value = formatted;
+    });
+  }
+
+  // فرمت خودکار مبلغ با جداکننده هزارگان
+  function setupMoneyInput(el) {
+    el.addEventListener('input', function() {
+      let raw = toEnglishDigits(this.value);
+      let digits = raw.replace(/[^0-9]/g, '').slice(0, 12);
+      this.value = digits === "" ? "" : money(parseInt(digits, 10));
+    });
+  }
+
+  setupDateInput(document.getElementById('dateInput'));
+  setupDateInput(document.getElementById('searchInput'));
+  setupMoneyInput(document.getElementById('costInput'));
+
+  // بارگذاری و ذخیره اطلاعات در حافظه گوشی
+  let trips = [];
+  let selectedIndices = new Set();
+  let viewDate = null;
+
+  function loadTrips() {
+    try {
+      const data = localStorage.getItem('driver_trips_data');
+      if (data) trips = JSON.parse(data);
+    } catch (e) {
+      trips = [];
+    }
+  }
+
+  function saveTrips() {
+    try {
+      localStorage.setItem('driver_trips_data', JSON.stringify(trips));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function updateCount() {
+    document.getElementById('countLabel').textContent = "Total trips " + trips.length;
+  }
+
+  function setMessage(text, isError = false) {
+    const lbl = document.getElementById('totalLabel');
+    lbl.textContent = text;
+    lbl.style.color = isError ? 'var(--red)' : 'var(--white)';
+  }
+
+  function setHeader(cols) {
+    const head = document.getElementById('tableHead');
+    head.innerHTML = '';
+    cols.forEach(([title, weight]) => {
+      const div = document.createElement('div');
+      div.className = 'th';
+      div.style.width = (weight * 100) + '%';
+      div.textContent = title;
+      head.appendChild(div);
+    });
+  }
+
+  function updateDeleteButton() {
+    const n = selectedIndices.size;
+    const btn = document.getElementById('deleteBtn');
+    btn.textContent = n === 0 ? "Delete selected" : `Delete selected (${n})`;
+  }
+
+  const TRIP_COLS = [["Driver", 0.28], ["Date", 0.28], ["Invoice", 0.22], ["Cost", 0.22]];
+  const DAY_COLS = [["Date", 0.36], ["Trips", 0.20], ["Total", 0.44]];
+
+  function showTable(items) {
+    const container = document.getElementById('rowsContainer');
+    container.innerHTML = '';
+    selectedIndices.clear();
+    updateDeleteButton();
+    setHeader(TRIP_COLS);
+
+    if (items.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-msg';
+      empty.textContent = "Nothing to show";
+      container.appendChild(empty);
+      return;
+    }
+
+    items.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 't-row ' + (i % 2 === 0 ? 'row-a' : 'row-b');
+      row.innerHTML = `
+        <div class="td" style="width:28%; font-size:14px; color:var(--white);">${item.trip.name}</div>
+        <div class="td" style="width:28%; color:var(--muted);">${item.trip.date}</div>
+        <div class="td" style="width:22%; color:var(--muted);">${item.trip.invoice || ''}</div>
+        <div class="td" style="width:22%; color:var(--green); font-weight:bold;">${money(item.trip.cost)}</div>
+      `;
+      row.onclick = () => {
+        if (selectedIndices.has(item.originalIndex)) {
+          selectedIndices.delete(item.originalIndex);
+          row.classList.remove('row-selected');
+        } else {
+          selectedIndices.add(item.originalIndex);
+          row.classList.add('row-selected');
+        }
+        updateDeleteButton();
+      };
+      container.appendChild(row);
+    });
+  }
+
+  function showDaily() {
+    const days = {};
+    trips.forEach(t => {
+      const d = normDate(t.date);
+      if (!days[d]) days[d] = [0, 0];
+      days[d][0] += 1;
+      days[d][1] += t.cost;
+    });
+
+    viewDate = null;
+    const container = document.getElementById('rowsContainer');
+    container.innerHTML = '';
+    selectedIndices.clear();
+    updateDeleteButton();
+    setHeader(DAY_COLS);
+
+    const sortedDates = Object.keys(days).sort().reverse();
+    if (sortedDates.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-msg';
+      empty.textContent = "Nothing to show";
+      container.appendChild(empty);
+      setMessage("No trips yet", true);
+      return;
+    }
+
+    let grand = 0;
+    sortedDates.forEach((d, i) => {
+      const [count, total] = days[d];
+      grand += total;
+      const row = document.createElement('div');
+      row.className = 't-row ' + (i % 2 === 0 ? 'row-a' : 'row-b');
+      row.innerHTML = `
+        <div class="td" style="width:36%; color:var(--muted);">${d}</div>
+        <div class="td" style="width:20%; font-size:14px; color:var(--white);">${count}</div>
+        <div class="td" style="width:44%; font-size:14px; color:var(--green); font-weight:bold;">${money(total)}</div>
+      `;
+      row.onclick = () => {
+        document.getElementById('searchInput').value = d;
+        showDate(d);
+      };
+      container.appendChild(row);
+    });
+
+    setMessage(`All days total  ${money(grand)}  (${sortedDates.length} days)`);
+  }
+
+  function addTrip() {
+    const name = document.getElementById('nameInput').value.trim();
+    const date = normDate(document.getElementById('dateInput').value);
+    const invoice = document.getElementById('invoiceInput').value.trim();
+    const costText = document.getElementById('costInput').value.replace(/,/g, '').trim();
+
+    if (!name || !date || !invoice || !costText) {
+      setMessage("Please fill in all fields", true);
+      return;
+    }
+    if (date.length !== 10) {
+      setMessage("Date must be like 1405/08/23", true);
+      return;
+    }
+
+    trips.push({
+      name: name,
+      date: date,
+      invoice: invoice,
+      cost: parseInt(costText, 10)
+    });
+
+    if (!saveTrips()) {
+      setMessage("Could not save to storage", true);
+      return;
+    }
+
+    updateCount();
+    document.getElementById('invoiceInput').value = '';
+    document.getElementById('costInput').value = '';
+
+    document.getElementById('searchInput').value = date;
+    searchDate();
+  }
+
+  function searchDate() {
+    const date = normDate(document.getElementById('searchInput').value);
+    if (!date) {
+      setMessage("Please enter a date", true);
+      return;
+    }
+    showDate(date);
+  }
+
+  function showDate(date) {
+    viewDate = date;
+    const found = [];
+    let total = 0;
+    trips.forEach((t, idx) => {
+      if (normDate(t.date) === date) {
+        found.push({ trip: t, originalIndex: idx });
+        total += t.cost;
+      }
+    });
+
+    showTable(found);
+    if (found.length === 0) {
+      setMessage("No trips found on this date", true);
+    } else {
+      setMessage("Total cost  " + money(total));
+    }
+  }
+
+  function showAll() {
+    viewDate = null;
+    const allItems = trips.map((t, idx) => ({ trip: t, originalIndex: idx }));
+    showTable(allItems);
+    setMessage("All trips");
+  }
+
+  function askDelete() {
+    const n = selectedIndices.size;
+    if (n === 0) {
+      setMessage("Tap a row to select it first", true);
+      return;
+    }
+    document.getElementById('confirmText').textContent = `Delete ${n} selected trip(s)?`;
+    document.getElementById('confirmModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+  }
+
+  function deleteSelected() {
+    const count = selectedIndices.size;
+    trips = trips.filter((_, idx) => !selectedIndices.has(idx));
+    closeModal();
+
+    const saved = saveTrips();
+    updateCount();
+
+    if (viewDate === null) {
+      showAll();
+    } else {
+      showDate(viewDate);
+    }
+
+    if (saved) {
+      setMessage(`Deleted ${count} trip(s)`);
+    } else {
+      setMessage("Could not save to storage", true);
+    }
+  }
+
+  // راه‌اندازی اولیه
+  loadTrips();
+  updateCount();
+  showAll();
+</script>
+</body>
+</html>
