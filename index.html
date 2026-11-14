@@ -50,7 +50,7 @@
 
   /* سرصفحه و دکمه بیشتر */
   .header {
-    height: 52px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -63,7 +63,7 @@
     flex: 1;
   }
   .header h1 {
-    font-size: 19px;
+    font-size: 18px;
     font-weight: bold;
   }
   .header p {
@@ -80,7 +80,7 @@
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    height: 38px;
+    height: 36px;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -107,7 +107,7 @@
     color: var(--white);
     font-size: 14px;
     padding: 8px 12px;
-    height: 40px;
+    height: 38px;
     width: 100%;
     border-radius: 8px;
     user-select: text;
@@ -129,21 +129,21 @@
     gap: 8px;
   }
 
-  /* انتخاب‌گر سه گزینه‌ای (اسنپ / سایت / مغازه) */
+  /* انتخاب‌گر سه گزینه‌ای ثبت (اسنپ / سایت / مغازه) */
   .source-selector {
     display: flex;
     background-color: var(--input-bg);
     border-radius: 10px;
     padding: 4px;
     gap: 4px;
-    height: 40px;
+    height: 38px;
   }
   .source-opt {
     flex: 1;
     border: none;
     background: transparent;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     border-radius: 7px;
     cursor: pointer;
@@ -161,9 +161,9 @@
     outline: none;
     border-radius: 11px;
     color: var(--white);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
-    height: 42px;
+    height: 40px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -179,15 +179,56 @@
   .btn-gray { background-color: var(--gray); }
   .btn-red { background-color: var(--red-btn); }
 
-  /* بخش جستجو */
+  /* بخش جستجو و فیلتر */
   .search-card {
-    flex-direction: row;
-    height: 60px;
-    align-items: center;
+    padding: 8px 10px;
+    gap: 7px;
     flex-shrink: 0;
   }
-  .search-card input { width: 46%; height: 40px; }
-  .search-card .btn { width: 27%; height: 40px; font-size: 13px; }
+  .search-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .search-row input { width: 46%; height: 38px; }
+  .search-row .btn { width: 27%; height: 38px; font-size: 13px; }
+
+  /* نوار فیلتر نمایش */
+  .filter-bar {
+    display: flex;
+    background-color: var(--bg);
+    border-radius: 9px;
+    padding: 3px;
+    gap: 4px;
+    height: 34px;
+  }
+  .filter-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn.active-all {
+    background-color: var(--gray);
+    color: var(--white);
+  }
+  .filter-btn.active-snapp {
+    background-color: var(--green);
+    color: var(--white);
+  }
+  .filter-btn.active-site {
+    background-color: var(--accent);
+    color: var(--white);
+  }
+  .filter-btn.active-shop {
+    background-color: #d99b26;
+    color: var(--white);
+  }
 
   /* کارت جدول */
   .table-card {
@@ -264,18 +305,18 @@
   .bottom-actions {
     display: flex;
     gap: 6px;
-    height: 42px;
+    height: 40px;
     flex-shrink: 0;
   }
   .bottom-actions .btn {
-    height: 42px;
+    height: 40px;
     font-size: 13px;
   }
 
   /* کارت جمع کل */
   .total-card {
     background-color: var(--input-bg);
-    height: 48px;
+    height: 46px;
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -289,7 +330,7 @@
     text-align: center;
   }
 
-  /* مودال‌ها (حذف و جمع ماهانه) */
+  /* مودال‌ها */
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -336,7 +377,7 @@
     height: 42px;
   }
 
-  /* لیست جمع ماهانه در مودال بیشتر */
+  /* لیست جمع ماهانه */
   .monthly-list {
     overflow-y: auto;
     display: flex;
@@ -399,7 +440,7 @@
       <input type="text" id="invoiceInput" class="num-input" placeholder="شماره فاکتور" style="width: 48%;">
     </div>
 
-    <!-- انتخاب نوع: اسنپ / سایت / مغازه -->
+    <!-- انتخاب نوع هنگام ثبت: اسنپ / سایت / مغازه -->
     <div class="source-selector">
       <button type="button" class="source-opt active" onclick="selectSource('اسنپ', this)">اسنپ</button>
       <button type="button" class="source-opt" onclick="selectSource('سایت', this)">سایت</button>
@@ -410,11 +451,20 @@
     <button class="btn btn-green" onclick="addTrip()">ثبت سفر</button>
   </div>
 
-  <!-- کارت جستجو -->
+  <!-- کارت جستجو و فیلتر -->
   <div class="card search-card">
-    <input type="text" id="searchInput" class="num-input" inputmode="numeric" placeholder="تاریخ جستجو">
-    <button class="btn btn-accent" onclick="searchDate()">جستجو</button>
-    <button class="btn btn-gray" onclick="showAll()">نمایش همه</button>
+    <div class="search-row">
+      <input type="text" id="searchInput" class="num-input" inputmode="numeric" placeholder="تاریخ جستجو">
+      <button class="btn btn-accent" onclick="searchDate()">جستجو</button>
+      <button class="btn btn-gray" onclick="showAll()">نمایش همه</button>
+    </div>
+    <!-- نوار فیلتر بر اساس نوع سفارش -->
+    <div class="filter-bar">
+      <button type="button" class="filter-btn active-all" id="flt-all" onclick="setFilter('همه')">همه</button>
+      <button type="button" class="filter-btn" id="flt-snapp" onclick="setFilter('اسنپ')">فقط اسنپ</button>
+      <button type="button" class="filter-btn" id="flt-site" onclick="setFilter('سایت')">فقط سایت</button>
+      <button type="button" class="filter-btn" id="flt-shop" onclick="setFilter('مغازه')">فقط مغازه</button>
+    </div>
   </div>
 
   <!-- کارت جدول -->
@@ -474,11 +524,40 @@
   };
 
   let currentSource = "اسنپ";
+  let currentFilter = "همه"; // 'همه' | 'اسنپ' | 'سایت' | 'مغازه'
 
   function selectSource(val, btnEl) {
     currentSource = val;
     document.querySelectorAll('.source-opt').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
+  }
+
+  function matchFilter(trip) {
+    const src = trip.source || "اسنپ";
+    return currentFilter === "همه" || src === currentFilter;
+  }
+
+  function setFilter(filterVal) {
+    currentFilter = filterVal;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.className = 'filter-btn';
+    });
+    if (filterVal === 'همه') document.getElementById('flt-all').classList.add('active-all');
+    else if (filterVal === 'اسنپ') document.getElementById('flt-snapp').classList.add('active-snapp');
+    else if (filterVal === 'سایت') document.getElementById('flt-site').classList.add('active-site');
+    else if (filterVal === 'مغازه') document.getElementById('flt-shop').classList.add('active-shop');
+
+    refreshCurrentView();
+  }
+
+  function refreshCurrentView() {
+    if (currentMode === 'daily') {
+      showDaily();
+    } else if (viewDate !== null) {
+      showDate(viewDate);
+    } else {
+      renderAllTrips();
+    }
   }
 
   function toEnglishDigits(str) {
@@ -558,7 +637,7 @@
   }
 
   function updateCount() {
-    document.getElementById('countLabel').textContent = "مجموع سفرها: " + trips.length;
+    document.getElementById('countLabel').textContent = "مجموع کل سفرها: " + trips.length;
   }
 
   function setMessage(text, isError = false) {
@@ -639,6 +718,7 @@
     currentMode = 'daily';
     const days = {};
     trips.forEach(t => {
+      if (!matchFilter(t)) return;
       const d = normDate(t.date);
       if (!days[d]) days[d] = [0, 0];
       days[d][0] += 1;
@@ -652,13 +732,14 @@
     updateDeleteButton();
     setHeader(DAY_COLS);
 
+    const filterTitle = currentFilter === "همه" ? "همه روزها" : `روزانه (${currentFilter})`;
     const sortedDates = Object.keys(days).sort().reverse();
     if (sortedDates.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'empty-msg';
       empty.textContent = "موردی برای نمایش وجود ندارد";
       container.appendChild(empty);
-      setMessage("هنوز سفری ثبت نشده است", true);
+      setMessage(`موردی برای ${filterTitle} یافت نشد`, true);
       return;
     }
 
@@ -680,7 +761,7 @@
       container.appendChild(row);
     });
 
-    setMessage(`جمع کل همه روزها: ${money(grand)} (${sortedDates.length} روز)`);
+    setMessage(`جمع کل ${filterTitle}: ${money(grand)} (${sortedDates.length} روز)`);
   }
 
   // محاسبه و نمایش جمع ماهانه در منوی بیشتر
@@ -768,6 +849,11 @@
     document.getElementById('invoiceInput').value = '';
     document.getElementById('costInput').value = '';
 
+    // اگر فیلتر روی گزینه دیگری غیر از سفارش فعلی بود، روی «همه» برگردد تا سفر جدید دیده شود
+    if (currentFilter !== "همه" && currentFilter !== currentSource) {
+      setFilter("همه");
+    }
+
     document.getElementById('searchInput').value = date;
     searchDate();
   }
@@ -786,26 +872,39 @@
     const found = [];
     let total = 0;
     trips.forEach((t, idx) => {
-      if (normDate(t.date) === date) {
+      if (normDate(t.date) === date && matchFilter(t)) {
         found.push({ trip: t, originalIndex: idx });
         total += t.cost;
       }
     });
 
     showTable(found);
+    const filterSuffix = currentFilter === "همه" ? "" : ` (${currentFilter})`;
     if (found.length === 0) {
-      setMessage("سفری در این تاریخ یافت نشد", true);
+      setMessage(`سفری در این تاریخ${filterSuffix} یافت نشد`, true);
     } else {
-      setMessage("جمع هزینه: " + money(total));
+      setMessage(`جمع هزینه${filterSuffix}: ${money(total)} (${found.length} مورد)`);
     }
   }
 
-  function showAll() {
+  function renderAllTrips() {
     viewDate = null;
-    const allItems = trips.map((t, idx) => ({ trip: t, originalIndex: idx }));
-    showTable(allItems);
-    const total = trips.reduce((sum, t) => sum + t.cost, 0);
-    setMessage(trips.length > 0 ? "همه سفرها | جمع کل: " + money(total) : "همه سفرها");
+    const filteredItems = [];
+    let total = 0;
+    trips.forEach((t, idx) => {
+      if (matchFilter(t)) {
+        filteredItems.push({ trip: t, originalIndex: idx });
+        total += t.cost;
+      }
+    });
+    showTable(filteredItems);
+    const filterTitle = currentFilter === "همه" ? "همه سفرها" : `فیلتر ${currentFilter}`;
+    setMessage(filteredItems.length > 0 ? `${filterTitle} (${filteredItems.length}) | جمع: ${money(total)}` : `${filterTitle} (0 مورد)`);
+  }
+
+  function showAll() {
+    document.getElementById('searchInput').value = '';
+    renderAllTrips();
   }
 
   function askDelete() {
@@ -831,7 +930,7 @@
     updateCount();
 
     if (viewDate === null) {
-      showAll();
+      renderAllTrips();
     } else {
       showDate(viewDate);
     }
@@ -887,33 +986,39 @@
     await shareOrCopyText(text, "گزارش ماهانه سفرها");
   }
 
-  // خروجی سفرها به نوت
+  // خروجی سفرها به نوت (با رعایت فیلتر فعال)
   async function exportToNotes() {
     if (trips.length === 0) {
       setMessage("اطلاعاتی برای خروجی گرفتن وجود ندارد", true);
       return;
     }
 
+    const filterSuffix = currentFilter === "همه" ? "" : ` - فقط ${currentFilter}`;
     let text = "";
 
     if (currentMode === 'daily') {
       const days = {};
       trips.forEach(t => {
+        if (!matchFilter(t)) return;
         const d = normDate(t.date);
         if (!days[d]) days[d] = [0, 0];
         days[d][0] += 1;
         days[d][1] += t.cost;
       });
       const sortedDates = Object.keys(days).sort().reverse();
+      if (sortedDates.length === 0) {
+        setMessage("موردی برای خروجی گرفتن وجود ندارد", true);
+        return;
+      }
       let grand = 0;
-      text += "📊 گزارش جمع روزانه سفرها\n━━━━━━━━━━━━━━━\n";
+      text += `📊 گزارش جمع روزانه سفرها${filterSuffix}\n━━━━━━━━━━━━━━━\n`;
       sortedDates.forEach(d => {
         const [count, total] = days[d];
         grand += total;
         text += `📅 تاریخ: ${d} | تعداد: ${count} سفر | جمع: ${money(total)}\n`;
       });
       text += "━━━━━━━━━━━━━━━\n";
-      text += `💰 جمع کل همه روزها: ${money(grand)} (${sortedDates.length} روز)`;
+      text += `💰 جمع کل: ${money(grand)} (${sortedDates.length} روز)`;
     } else {
       let listToExport = [];
       let title = "";
@@ -922,11 +1027,11 @@
         listToExport = trips.filter((_, idx) => selectedIndices.has(idx));
         title = `📋 گزارش سفرهای انتخاب‌شده (${listToExport.length} مورد)`;
       } else if (viewDate !== null) {
-        listToExport = trips.filter(t => normDate(t.date) === viewDate);
-        title = `📋 گزارش سفرهای تاریخ ${viewDate}`;
+        listToExport = trips.filter(t => normDate(t.date) === viewDate && matchFilter(t));
+        title = `📋 گزارش سفرهای تاریخ ${viewDate}${filterSuffix}`;
       } else {
-        listToExport = trips;
-        title = `📋 گزارش کل سفرها (${listToExport.length} مورد)`;
+        listToExport = trips.filter(t => matchFilter(t));
+        title = `📋 گزارش سفرها${filterSuffix} (${listToExport.length} مورد)`;
       }
 
       if (listToExport.length === 0) {
@@ -951,7 +1056,7 @@
   // راه‌اندازی اولیه
   loadTrips();
   updateCount();
-  showAll();
+  renderAllTrips();
 </script>
 </body>
 </html>
