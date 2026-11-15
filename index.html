@@ -10,122 +10,189 @@
 <meta name="theme-color" content="#0f141f">
 <title>مدیریت سفرها</title>
 
-<!-- آیکون خودکار هنگام نصب روی صفحه گوشی -->
+<!-- تگ‌های مستقیم آیکون برای شناسایی فوری توسط آیفون (iOS) -->
+<link id="appleTouchIcon" rel="apple-touch-icon" sizes="180x180" href="">
+<link id="applePrecomposedIcon" rel="apple-touch-icon-precomposed" sizes="180x180" href="">
+<link id="favIcon" rel="icon" type="image/png" href="">
+
 <script>
+// تولید فوری آیکون PNG در لحظه صفر (بدون انتظار برای لود صفحه) مخصوص سافاری آیفون
 (function() {
-  const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-    <defs>
-      <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#1c2539"/>
-        <stop offset="100%" stop-color="#0b0f19"/>
-      </linearGradient>
-      <linearGradient id="bike" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#34d399"/>
-        <stop offset="100%" stop-color="#10b981"/>
-      </linearGradient>
-      <linearGradient id="box" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#60a5fa"/>
-        <stop offset="100%" stop-color="#3b82f6"/>
-      </linearGradient>
-      <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#fde047"/>
-        <stop offset="100%" stop-color="#f59e0b"/>
-      </linearGradient>
-    </defs>
-    <!-- پس‌زمینه آیکون -->
-    <rect width="512" height="512" rx="115" fill="url(#bg)"/>
-    <circle cx="256" cy="256" r="200" fill="#26ad73" opacity="0.08"/>
-    
-    <!-- خطوط سرعت نئونی -->
-    <rect x="45" y="210" width="85" height="10" rx="5" fill="#4085f5" opacity="0.45"/>
-    <rect x="25" y="255" width="65" height="10" rx="5" fill="#7c4dff" opacity="0.45"/>
-    <rect x="60" y="300" width="55" height="10" rx="5" fill="#26ad73" opacity="0.45"/>
-    <rect x="85" y="408" width="342" height="8" rx="4" fill="#293045"/>
-
-    <!-- چرخ عقب -->
-    <circle cx="165" cy="348" r="52" fill="#0f141f" stroke="#9eabbf" stroke-width="14"/>
-    <circle cx="165" cy="348" r="24" fill="none" stroke="#26ad73" stroke-width="6"/>
-    <circle cx="165" cy="348" r="10" fill="#ffd159"/>
-
-    <!-- چرخ جلو -->
-    <circle cx="375" cy="348" r="52" fill="#0f141f" stroke="#9eabbf" stroke-width="14"/>
-    <circle cx="375" cy="348" r="24" fill="none" stroke="#4085f5" stroke-width="6"/>
-    <circle cx="375" cy="348" r="10" fill="#ffd159"/>
-
-    <!-- اگزوز -->
-    <path d="M 108 328 L 195 342 L 195 358 L 108 346 Z" fill="#64748b"/>
-
-    <!-- بدنه اصلی موتور -->
-    <path d="M 135 280 C 135 245, 225 245, 248 295 L 315 295 L 348 195 L 392 212 L 352 338 L 148 338 Z" fill="url(#bike)"/>
-    <!-- گلگیر جلو -->
-    <path d="M 332 292 Q 388 278 418 320 L 368 332 Z" fill="#059669"/>
-
-    <!-- زین موتور -->
-    <path d="M 162 245 Q 212 240 245 274 L 180 274 Q 152 274 162 245 Z" fill="#1e293b"/>
-
-    <!-- فرمان و چراغ جلو -->
-    <path d="M 318 168 L 362 198" stroke="#9eabbf" stroke-width="14" stroke-linecap="round"/>
-    <circle cx="312" cy="164" r="11" fill="#f8fafc"/>
-    <!-- پرتو چراغ جلو -->
-    <ellipse cx="385" cy="222" rx="12" ry="20" transform="rotate(-18 385 222)" fill="url(#gold)"/>
-    <path d="M 398 205 L 485 170 L 485 265 L 398 238 Z" fill="url(#gold)" opacity="0.28"/>
-
-    <!-- باکس پیک (عقب موتور) -->
-    <rect x="108" y="138" width="108" height="98" rx="20" fill="url(#box)" stroke="#93c5fd" stroke-width="4"/>
-    <rect x="104" y="172" width="116" height="12" rx="4" fill="#1d4ed8"/>
-    <!-- لوکیشن طلایی روی باکس -->
-    <circle cx="162" cy="166" r="14" fill="url(#gold)"/>
-    <circle cx="162" cy="166" r="5" fill="#1e293b"/>
-  </svg>`;
-
-  const svgDataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgIcon);
-
-  // ساخت فاوآیکون فوری
-  const fav = document.createElement('link');
-  fav.rel = 'icon';
-  fav.href = svgDataUrl;
-  document.head.appendChild(fav);
-
-  // تبدیل به PNG با کیفیت بالا برای آیفون (Apple Touch Icon) و اندروید (Web Manifest)
-  window.addEventListener('DOMContentLoaded', () => {
+  try {
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = 180;
+    canvas.height = 180;
     const ctx = canvas.getContext('2d');
-    const img = new Image();
-    img.onload = function() {
-      ctx.drawImage(img, 0, 0, 512, 512);
-      const pngUrl = canvas.toDataURL('image/png');
 
-      // آیکون صفحه اصلی آیفون (iOS)
-      const appleIcon = document.createElement('link');
-      appleIcon.rel = 'apple-touch-icon';
-      appleIcon.href = pngUrl;
-      document.head.appendChild(appleIcon);
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
 
-      // مانیفست نصب اندروید و کروم (PWA)
-      const manifest = {
-        name: "مدیریت سفرهای راننده",
-        short_name: "مدیریت سفرها",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#0f141f",
-        theme_color: "#0f141f",
-        icons: [
-          { src: pngUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
-        ]
-      };
-      const manifestLink = document.createElement('link');
-      manifestLink.rel = 'manifest';
-      manifestLink.href = 'data:application/manifest+json;utf8,' + encodeURIComponent(JSON.stringify(manifest));
-      document.head.appendChild(manifestLink);
+    // ۱. پس‌زمینه تیره و مدرن (بدون شفافیت برای جلوگیری از سیاه شدن در iOS)
+    const bgGrad = ctx.createLinearGradient(0, 0, 180, 180);
+    bgGrad.addColorStop(0, '#1e293b');
+    bgGrad.addColorStop(1, '#0b0f19');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, 180, 180);
 
-      // نمایش آیکون در هدر بالای برنامه
-      const headerLogo = document.getElementById('appHeaderLogo');
-      if (headerLogo) headerLogo.src = pngUrl;
-    };
-    img.src = svgDataUrl;
-  });
+    // هاله نوری سبز پشت موتور
+    const glow = ctx.createRadialGradient(90, 95, 10, 90, 95, 78);
+    glow.addColorStop(0, 'rgba(38, 173, 115, 0.28)');
+    glow.addColorStop(1, 'rgba(38, 173, 115, 0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, 180, 180);
+
+    // ۲. خطوط سرعت نئونی و جاده
+    ctx.fillStyle = 'rgba(64, 133, 245, 0.55)';
+    roundRect(14, 72, 28, 4, 2); ctx.fill();
+    ctx.fillStyle = 'rgba(124, 77, 255, 0.55)';
+    roundRect(8, 88, 22, 4, 2); ctx.fill();
+    ctx.fillStyle = 'rgba(38, 173, 115, 0.55)';
+    roundRect(18, 104, 20, 4, 2); ctx.fill();
+
+    // خط جاده پایین
+    ctx.fillStyle = '#293045';
+    roundRect(24, 145, 132, 4, 2); ctx.fill();
+
+    // ۳. چرخ عقب و جلو
+    function drawWheel(cx, cy, ringColor) {
+      ctx.beginPath();
+      ctx.arc(cx, cy, 19, 0, Math.PI * 2);
+      ctx.fillStyle = '#0f141f';
+      ctx.fill();
+      ctx.lineWidth = 5.5;
+      ctx.strokeStyle = '#94a3b8';
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 9.5, 0, Math.PI * 2);
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = ringColor;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffd159';
+      ctx.fill();
+    }
+    drawWheel(56, 123, '#26ad73');
+    drawWheel(130, 123, '#4085f5');
+
+    // ۴. اگزوز
+    ctx.fillStyle = '#64748b';
+    ctx.beginPath();
+    ctx.moveTo(35, 115);
+    ctx.lineTo(68, 120);
+    ctx.lineTo(68, 126);
+    ctx.lineTo(35, 122);
+    ctx.closePath();
+    ctx.fill();
+
+    // ۵. بدنه اصلی موتور اسکوتر (سبز نئونی)
+    const bikeGrad = ctx.createLinearGradient(45, 65, 140, 125);
+    bikeGrad.addColorStop(0, '#34d399');
+    bikeGrad.addColorStop(1, '#059669');
+    ctx.fillStyle = bikeGrad;
+    ctx.beginPath();
+    ctx.moveTo(46, 98);
+    ctx.bezierCurveTo(46, 84, 78, 84, 88, 104);
+    ctx.lineTo(110, 104);
+    ctx.lineTo(122, 68);
+    ctx.lineTo(138, 74);
+    ctx.lineTo(123, 120);
+    ctx.lineTo(50, 120);
+    ctx.closePath();
+    ctx.fill();
+
+    // گلگیر جلو
+    ctx.fillStyle = '#047857';
+    ctx.beginPath();
+    ctx.moveTo(116, 102);
+    ctx.quadraticCurveTo(136, 97, 147, 113);
+    ctx.lineTo(128, 117);
+    ctx.closePath();
+    ctx.fill();
+
+    // زین موتور
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.moveTo(55, 86);
+    ctx.quadraticCurveTo(75, 83, 86, 96);
+    ctx.lineTo(60, 96);
+    ctx.closePath();
+    ctx.fill();
+
+    // فرمان موتور
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(111, 59);
+    ctx.lineTo(127, 70);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(109, 58, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    // چراغ جلو و نور طلایی
+    ctx.fillStyle = 'rgba(253, 224, 71, 0.28)';
+    ctx.beginPath();
+    ctx.moveTo(139, 73);
+    ctx.lineTo(172, 60);
+    ctx.lineTo(172, 94);
+    ctx.lineTo(139, 84);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = '#fde047';
+    ctx.beginPath();
+    ctx.arc(136, 78, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ۶. باکس پیک موتوری (آبی مدرن با پین لوکیشن طلایی)
+    const boxGrad = ctx.createLinearGradient(36, 46, 76, 84);
+    boxGrad.addColorStop(0, '#60a5fa');
+    boxGrad.addColorStop(1, '#2563eb');
+    ctx.fillStyle = boxGrad;
+    roundRect(36, 46, 39, 36, 8);
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#93c5fd';
+    ctx.stroke();
+
+    // خط وسط باکس
+    ctx.fillStyle = '#1d4ed8';
+    roundRect(35, 60, 41, 4.5, 2);
+    ctx.fill();
+
+    // نشانگر لوکیشن طلایی روی باکس
+    ctx.beginPath();
+    ctx.arc(55.5, 57, 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffd159';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(55.5, 57, 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#1e293b';
+    ctx.fill();
+
+    // استخراج فوری Data URL و قرار دادن در تگ‌های Apple Touch Icon
+    const pngDataUrl = canvas.toDataURL('image/png');
+    document.getElementById('appleTouchIcon').href = pngDataUrl;
+    document.getElementById('applePrecomposedIcon').href = pngDataUrl;
+    document.getElementById('favIcon').href = pngDataUrl;
+
+    window.APP_ICON_DATA = pngDataUrl;
+  } catch (err) {
+    console.error(err);
+  }
 })();
 </script>
 
@@ -577,7 +644,7 @@
       <p id="countLabel">مجموع کل سفرها: 0</p>
     </div>
     <div class="app-logo-box">
-      <img id="appHeaderLogo" alt="آیکون برنامه">
+      <img id="appHeaderLogo" alt="آیکون">
     </div>
   </div>
 
@@ -672,6 +739,11 @@
   </div>
 
 <script>
+  // قرار دادن آیکون تولید شده در هدر برنامه
+  if (window.APP_ICON_DATA) {
+    document.getElementById('appHeaderLogo').src = window.APP_ICON_DATA;
+  }
+
   const THOUSAND_SEP = ",";
   const DIGITS_MAP = {
     '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9',
@@ -689,7 +761,6 @@
   let currentFilter = "همه";
   let pendingTrip = null;
 
-  // محاسبه تاریخ شمسی روز به صورت خودکار (مثلا 1405/08/23)
   function getTodayJalali() {
     const now = new Date();
     let gy = now.getFullYear();
@@ -800,7 +871,6 @@
     this.value = toEnglishDigits(this.value);
   });
 
-  // ذخیره خودکار نام راننده به محض تایپ تا دائم بماند
   document.getElementById('nameInput').addEventListener('input', function() {
     try {
       localStorage.setItem('saved_driver_name', this.value);
@@ -817,7 +887,6 @@
       const data = localStorage.getItem('driver_trips_data');
       if (data) trips = JSON.parse(data);
 
-      // بازیابی نام راننده ذخیره‌شده
       const savedName = localStorage.getItem('saved_driver_name');
       if (savedName) {
         document.getElementById('nameInput').value = savedName;
@@ -964,7 +1033,6 @@
     setMessage(`جمع کل ${filterTitle}: ${money(grand)} (${sortedDates.length} روز)`);
   }
 
-  // محاسبه و نمایش جمع ماهانه در منوی بیشتر
   function getMonthlyData() {
     const months = {};
     trips.forEach(t => {
@@ -1040,7 +1108,6 @@
       cost: parseInt(costText, 10)
     };
 
-    // بررسی تکراری بودن شماره فاکتور
     const existingTrip = trips.find(t => toEnglishDigits(String(t.invoice)).trim() === invoice);
     if (existingTrip) {
       pendingTrip = newTrip;
@@ -1070,7 +1137,6 @@
   }
 
   function finalizeAddTrip(tripObj) {
-    // ذخیره نام راننده به صورت دائمی
     try {
       localStorage.setItem('saved_driver_name', tripObj.name);
     } catch (e) {}
@@ -1287,7 +1353,6 @@
     await shareOrCopyText(text, "گزارش سفرها");
   }
 
-  // راه‌اندازی اولیه و تنظیم تاریخ روز
   document.getElementById('dateInput').value = getTodayJalali();
   loadTrips();
   updateCount();
