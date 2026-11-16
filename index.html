@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مدیریت سفرها">
 <meta name="theme-color" content="#0f141f">
-<title>مدیریت سفرها</title>
+<title>مدیریت هوشمند سفرها</title>
 
 <link id="appleTouchIcon" rel="apple-touch-icon" sizes="180x180" href="">
 <link id="applePrecomposedIcon" rel="apple-touch-icon-precomposed" sizes="180x180" href="">
@@ -220,17 +220,16 @@
   body {
     display: flex;
     flex-direction: column;
-    /* رعایت فاصله ناچ و نوار وضعیت بالای آیفون و خط پایین صفحه */
-    padding-top: calc(env(safe-area-inset-top, 20px) + 8px);
-    padding-bottom: calc(env(safe-area-inset-bottom, 10px) + 8px);
-    padding-left: 12px;
-    padding-right: 12px;
-    gap: 8px;
+    padding-top: calc(env(safe-area-inset-top, 20px) + 6px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 10px) + 6px);
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 6px;
   }
 
-  /* سرصفحه اصلاح‌شده و ضد شکستن خط */
+  /* سرصفحه */
   .header {
-    min-height: 46px;
+    min-height: 42px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -246,17 +245,15 @@
     min-width: 0;
   }
   .header h1 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.3;
   }
   .header p {
     font-size: 11px;
     color: var(--muted);
-    margin-top: 2px;
     white-space: nowrap;
   }
   .more-btn {
@@ -264,63 +261,79 @@
     border: 1px solid var(--accent);
     color: var(--white);
     border-radius: 10px;
-    padding: 6px 10px;
+    padding: 5px 10px;
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
-    height: 36px;
+    height: 34px;
     display: flex;
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
   }
-  .more-btn:active {
-    filter: brightness(0.75);
-  }
+  .more-btn:active { filter: brightness(0.75); }
   .app-logo-box {
-    width: 64px;
+    width: 58px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     flex-shrink: 0;
   }
   .app-logo-box img {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
     border: 1px solid rgba(255,255,255,0.12);
   }
 
   /* کارت‌ها */
   .card {
     background-color: var(--card);
-    border-radius: 14px;
-    padding: 10px 12px;
+    border-radius: 13px;
+    padding: 8px 10px;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 6px;
   }
 
-  /* ورودی‌ها */
-  input {
+  /* ورودی‌ها و سلکت */
+  input, select, textarea {
     background-color: var(--input-bg);
-    border: none;
+    border: 1px solid transparent;
     outline: none;
     color: var(--white);
-    font-size: 14px;
-    padding: 8px 12px;
-    height: 38px;
+    font-size: 13px;
+    padding: 6px 10px;
+    height: 36px;
     width: 100%;
     border-radius: 8px;
     user-select: text;
     caret-color: var(--accent);
     text-align: right;
   }
-  input::placeholder {
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  input::placeholder, textarea::placeholder {
     color: var(--muted);
     text-align: right;
   }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffd159' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 15px;
+    padding-left: 30px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  select option {
+    background-color: var(--card);
+    color: var(--white);
+  }
+
   .num-input {
     direction: ltr;
     text-align: right;
@@ -329,52 +342,58 @@
 
   .row-inputs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
 
-  .source-selector {
+  /* مبالغ سریع */
+  .quick-chips {
     display: flex;
-    background-color: var(--input-bg);
-    border-radius: 10px;
-    padding: 4px;
     gap: 4px;
-    height: 38px;
+    overflow-x: auto;
+    padding-bottom: 1px;
   }
-  .source-opt {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: bold;
+  .quick-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    background-color: rgba(64, 133, 245, 0.14);
+    border: 1px solid rgba(64, 133, 245, 0.35);
+    color: #93c5fd;
     border-radius: 7px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.15s;
+    white-space: nowrap;
+    flex: 1;
+    text-align: center;
   }
-  .source-opt.active {
+  .chip:active {
     background-color: var(--accent);
     color: var(--white);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  .chip-clear {
+    background-color: rgba(255, 115, 115, 0.14);
+    border-color: rgba(255, 115, 115, 0.35);
+    color: var(--red);
+    flex: 0 0 auto;
   }
 
   /* دکمه‌ها */
   .btn {
     border: none;
     outline: none;
-    border-radius: 11px;
+    border-radius: 10px;
     color: var(--white);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
-    height: 40px;
+    height: 36px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     transition: filter 0.1s;
   }
-  .btn:active {
-    filter: brightness(0.75);
-  }
+  .btn:active { filter: brightness(0.75); }
   .btn-green { background-color: var(--green); }
   .btn-accent { background-color: var(--accent); }
   .btn-purple { background-color: var(--purple); }
@@ -382,72 +401,62 @@
   .btn-red { background-color: var(--red-btn); }
   .btn-gold { background-color: #d99b26; }
 
-  /* بخش جستجو و فیلتر */
+  /* بخش جستجو و ناوبری روزانه */
   .search-card {
-    padding: 8px 10px;
-    gap: 7px;
+    padding: 7px 10px;
+    gap: 6px;
     flex-shrink: 0;
   }
   .search-row {
     display: flex;
-    gap: 6px;
+    gap: 5px;
     align-items: center;
   }
-  .search-row input { width: 46%; height: 38px; }
-  .search-row .btn { width: 27%; height: 38px; font-size: 13px; }
+  .search-row input { flex: 1; height: 34px; font-size: 12px; }
+  .search-row .btn { padding: 0 10px; height: 34px; font-size: 12px; flex-shrink: 0; }
 
-  .filter-bar {
+  .day-nav-bar {
     display: flex;
-    background-color: var(--bg);
-    border-radius: 9px;
-    padding: 3px;
-    gap: 4px;
-    height: 34px;
+    gap: 5px;
+    align-items: center;
   }
-  .filter-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    font-size: 12px;
+  .nav-btn {
+    background-color: var(--input-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    border-radius: 7px;
+    height: 30px;
+    padding: 0 8px;
+    font-size: 11px;
     font-weight: bold;
-    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .filter-btn.active-all {
-    background-color: var(--gray);
-    color: var(--white);
-  }
-  .filter-btn.active-snapp {
-    background-color: var(--green);
-    color: var(--white);
-  }
-  .filter-btn.active-site {
-    background-color: var(--accent);
-    color: var(--white);
-  }
-  .filter-btn.active-shop {
-    background-color: #d99b26;
-    color: var(--white);
+  .nav-btn:active { background-color: var(--accent); }
+  .nav-btn.today-active {
+    background-color: rgba(38, 173, 115, 0.2);
+    border-color: var(--green);
+    color: #4ade80;
   }
 
   /* کارت جدول */
   .table-card {
     flex: 1;
     min-height: 0;
-    padding: 10px;
-    gap: 6px;
+    padding: 8px 10px;
+    gap: 5px;
   }
   .table-head {
     display: flex;
-    height: 26px;
+    height: 24px;
     align-items: center;
     flex-shrink: 0;
   }
   .th {
     color: var(--gold);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     text-align: center;
   }
@@ -463,10 +472,11 @@
   .t-row {
     display: flex;
     align-items: center;
-    min-height: 40px;
+    min-height: 38px;
     border-radius: 8px;
     cursor: pointer;
     flex-shrink: 0;
+    padding: 2px 0;
   }
   .row-a { background-color: var(--row-a); }
   .row-b { background-color: var(--row-b); }
@@ -487,39 +497,54 @@
 
   .badge-type {
     display: inline-block;
-    padding: 2px 6px;
+    padding: 2px 5px;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
   }
   .badge-snapp { background: rgba(38, 173, 115, 0.2); color: #4ade80; }
   .badge-site { background: rgba(64, 133, 245, 0.2); color: #60a5fa; }
   .badge-shop { background: rgba(255, 209, 89, 0.2); color: #fcd34d; }
 
+  .detail-btn {
+    background-color: var(--input-bg);
+    border: 1px solid rgba(255, 209, 89, 0.4);
+    color: var(--gold);
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .detail-btn:active {
+    background-color: var(--gold);
+    color: #000;
+  }
+
   .empty-msg {
     color: var(--muted);
     text-align: center;
     height: 44px;
     line-height: 44px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .bottom-actions {
     display: flex;
-    gap: 6px;
-    height: 40px;
+    gap: 5px;
+    height: 36px;
     flex-shrink: 0;
   }
   .bottom-actions .btn {
-    height: 40px;
-    font-size: 13px;
+    height: 36px;
+    font-size: 12px;
   }
 
   /* کارت جمع کل */
   .total-card {
     background-color: var(--input-bg);
-    height: 44px;
-    border-radius: 14px;
+    height: 38px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -527,36 +552,39 @@
     padding: 0 10px;
   }
   .total-label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* مودال‌ها */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.72);
+    background: rgba(0, 0, 0, 0.75);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 999;
-    padding: 16px;
+    padding: 14px;
   }
   .modal-box {
     background-color: var(--card);
     border: 1px solid var(--gray);
     border-radius: 16px;
     width: 100%;
-    max-width: 370px;
-    max-height: 82vh;
-    padding: 16px;
+    max-width: 375px;
+    max-height: 85vh;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
   .modal-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: var(--gold);
     border-bottom: 1px solid var(--gray);
@@ -566,9 +594,9 @@
     align-items: center;
   }
   .modal-text {
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
-    padding: 6px 0;
+    padding: 4px 0;
     line-height: 1.6;
   }
   .dup-details {
@@ -576,18 +604,18 @@
     border-radius: 10px;
     padding: 10px;
     font-size: 13px;
-    color: var(--muted);
+    color: var(--white);
     text-align: right;
     border-right: 3px solid var(--gold);
-    line-height: 1.7;
+    line-height: 1.8;
   }
   .modal-buttons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
   }
   .modal-buttons .btn {
     flex: 1;
-    height: 42px;
+    height: 38px;
   }
 
   .monthly-list {
@@ -595,16 +623,15 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: 55vh;
-    padding-left: 2px;
+    max-height: 45vh;
   }
   .month-card {
     background-color: var(--row-a);
     border-radius: 10px;
-    padding: 10px 12px;
+    padding: 9px 11px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     border-right: 3px solid var(--accent);
   }
   .month-top {
@@ -612,34 +639,42 @@
     justify-content: space-between;
     align-items: center;
   }
-  .month-name {
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--white);
-  }
-  .month-total {
-    font-size: 15px;
-    font-weight: bold;
-    color: var(--green);
-  }
+  .month-name { font-size: 13px; font-weight: bold; }
+  .month-total { font-size: 14px; font-weight: bold; color: var(--green); }
   .month-sub {
     display: flex;
     justify-content: space-between;
     font-size: 11px;
     color: var(--muted);
     border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 5px;
+    padding-top: 4px;
+  }
+
+  .backup-section {
+    background-color: var(--row-b);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px dashed var(--gray);
+  }
+  .backup-title {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: bold;
+    text-align: center;
   }
 </style>
 </head>
 <body>
 
-  <!-- سرصفحه به همراه دکمه بیشتر و آیکون موتور -->
+  <!-- سرصفحه -->
   <div class="header">
-    <button class="more-btn" onclick="openMoreModal()">☰ بیشتر</button>
+    <button class="more-btn" onclick="openMoreModal()">☰ بیشتر و پشتیبان</button>
     <div class="header-titles">
       <h1>مدیریت سفرهای راننده</h1>
-      <p id="countLabel">مجموع کل سفرها: 0</p>
+      <p id="countLabel">کل سفرهای ثبت‌شده: 0</p>
     </div>
     <div class="app-logo-box">
       <img id="appHeaderLogo" alt="آیکون">
@@ -648,34 +683,58 @@
 
   <!-- کارت ثبت سفر -->
   <div class="card" style="flex-shrink: 0;">
-    <input type="text" id="nameInput" placeholder="نام راننده">
+    <div class="row-inputs">
+      <input type="text" id="nameInput" placeholder="نام راننده" style="width: 48%;">
+      <select id="sourceSelect" onchange="onSourceChange()" style="width: 52%;">
+        <option value="اسنپ">نوع سفر: اسنپ</option>
+        <option value="سایت">نوع سفر: سایت</option>
+        <option value="مغازه">نوع سفر: مغازه</option>
+      </select>
+    </div>
+
+    <!-- فیلد توضیحات مخصوص گزینه مغازه -->
+    <div id="shopDescContainer" style="display: none;">
+      <input type="text" id="shopDescInput" placeholder="توضیحات مغازه (نام مغازه، کالا، مقصد یا...)">
+    </div>
+
     <div class="row-inputs">
       <input type="text" id="dateInput" class="num-input" inputmode="numeric" placeholder="تاریخ (1405/08/23)" style="width: 52%;">
       <input type="text" id="invoiceInput" class="num-input" placeholder="شماره فاکتور" style="width: 48%;">
     </div>
 
-    <div class="source-selector">
-      <button type="button" class="source-opt active" onclick="selectSource('اسنپ', this)">اسنپ</button>
-      <button type="button" class="source-opt" onclick="selectSource('سایت', this)">سایت</button>
-      <button type="button" class="source-opt" onclick="selectSource('مغازه', this)">مغازه</button>
+    <!-- دکمه‌های مبلغ سریع برای راحتی بیشتر -->
+    <div class="quick-chips">
+      <button type="button" class="chip" onclick="addQuickCost(50000)">+۵۰ هزار</button>
+      <button type="button" class="chip" onclick="addQuickCost(100000)">+۱۰۰ هزار</button>
+      <button type="button" class="chip" onclick="addQuickCost(150000)">+۱۵۰ هزار</button>
+      <button type="button" class="chip" onclick="addQuickCost(200000)">+۲۰۰ هزار</button>
+      <button type="button" class="chip chip-clear" onclick="clearCost()">پاک</button>
     </div>
 
-    <input type="text" id="costInput" class="num-input" inputmode="numeric" placeholder="هزینه ارسال (کرایه)">
-    <button class="btn btn-green" onclick="addTrip()">ثبت سفر</button>
+    <div class="row-inputs">
+      <input type="text" id="costInput" class="num-input" inputmode="numeric" placeholder="هزینه ارسال / کرایه" style="width: 62%;">
+      <button class="btn btn-green" onclick="addTrip()" style="width: 38%;">+ ثبت فیش</button>
+    </div>
   </div>
 
-  <!-- کارت جستجو و فیلتر -->
+  <!-- کارت ناوبری روزها، فیلتر و جستجو -->
   <div class="card search-card">
-    <div class="search-row">
-      <input type="text" id="searchInput" class="num-input" inputmode="numeric" placeholder="تاریخ جستجو">
-      <button class="btn btn-accent" onclick="searchDate()">جستجو</button>
-      <button class="btn btn-gray" onclick="showAll()">نمایش همه</button>
+    <div class="day-nav-bar">
+      <button type="button" class="nav-btn" onclick="shiftViewDate(-1)">◀ روز قبل</button>
+      <button type="button" class="nav-btn today-active" id="todayBtn" onclick="goToToday()">امروز</button>
+      <button type="button" class="nav-btn" onclick="shiftViewDate(1)">روز بعد ▶</button>
+      <select id="filterSelect" onchange="setFilter(this.value)" style="height: 30px; font-size: 11px; flex: 1; padding: 2px 8px 2px 24px;">
+        <option value="همه">فیلتر: همه نوع</option>
+        <option value="اسنپ">فقط اسنپ</option>
+        <option value="سایت">فقط سایت</option>
+        <option value="مغازه">فقط مغازه</option>
+      </select>
     </div>
-    <div class="filter-bar">
-      <button type="button" class="filter-btn active-all" id="flt-all" onclick="setFilter('همه')">همه</button>
-      <button type="button" class="filter-btn" id="flt-snapp" onclick="setFilter('اسنپ')">فقط اسنپ</button>
-      <button type="button" class="filter-btn" id="flt-site" onclick="setFilter('سایت')">فقط سایت</button>
-      <button type="button" class="filter-btn" id="flt-shop" onclick="setFilter('مغازه')">فقط مغازه</button>
+
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="جستجوی تاریخ (1405/08/23) یا شماره فاکتور...">
+      <button class="btn btn-accent" onclick="smartSearch()">بیاب</button>
+      <button class="btn btn-gray" onclick="showAll()">همه روزها</button>
     </div>
   </div>
 
@@ -684,15 +743,52 @@
     <div class="table-head" id="tableHead"></div>
     <div class="scroll-area" id="rowsContainer"></div>
     <div class="bottom-actions">
-      <button class="btn btn-accent" style="width: 30%;" onclick="showDaily()">جمع روزانه</button>
-      <button class="btn btn-purple" style="width: 34%;" onclick="exportToNotes()">خروجی به نوت</button>
-      <button class="btn btn-red" id="deleteBtn" style="width: 36%;" onclick="askDelete()">حذف انتخاب‌شده</button>
+      <button class="btn btn-accent" style="width: 32%;" onclick="showDaily()">📅 جمع روزها</button>
+      <button class="btn btn-purple" style="width: 34%;" onclick="exportToNotes()">📋 خروجی نوت</button>
+      <button class="btn btn-red" id="deleteBtn" style="width: 34%;" onclick="askDelete()">حذف انتخابی</button>
     </div>
   </div>
 
   <!-- کارت جمع هزینه -->
   <div class="total-card">
-    <span class="total-label" id="totalLabel">همه سفرها</span>
+    <span class="total-label" id="totalLabel">سفرهای امروز</span>
+  </div>
+
+  <!-- پنجره جزئیات و ویرایش فیش -->
+  <div class="modal-overlay" id="detailsModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span>📄 جزئیات کامل فیش</span>
+      </div>
+      <div id="detailsViewBox" class="dup-details"></div>
+
+      <!-- بخش ویرایش در صورت زدن دکمه ویرایش -->
+      <div id="detailsEditBox" style="display: none; flex-direction: column; gap: 7px;">
+        <input type="text" id="editName" placeholder="نام راننده">
+        <div class="row-inputs">
+          <select id="editSource" onchange="onEditSourceChange()" style="width: 50%;">
+            <option value="اسنپ">اسنپ</option>
+            <option value="سایت">سایت</option>
+            <option value="مغازه">مغازه</option>
+          </select>
+          <input type="text" id="editInvoice" class="num-input" placeholder="شماره فاکتور" style="width: 50%;">
+        </div>
+        <input type="text" id="editDesc" placeholder="توضیحات (مخصوص مغازه یا یادداشت)" style="display: none;">
+        <div class="row-inputs">
+          <input type="text" id="editDate" class="num-input" inputmode="numeric" placeholder="تاریخ" style="width: 50%;">
+          <input type="text" id="editCost" class="num-input" inputmode="numeric" placeholder="هزینه" style="width: 50%;">
+        </div>
+      </div>
+
+      <div class="modal-buttons" id="detailsFooterBtns">
+        <button class="btn btn-accent" onclick="enableEditTrip()">✏️ ویرایش فیش</button>
+        <button class="btn btn-gray" onclick="closeDetailsModal()">بستن</button>
+      </div>
+      <div class="modal-buttons" id="editFooterBtns" style="display: none;">
+        <button class="btn btn-green" onclick="saveEditedTrip()">ذخیره تغییرات</button>
+        <button class="btn btn-gray" onclick="cancelEditTrip()">انصراف</button>
+      </div>
+    </div>
   </div>
 
   <!-- پنجره تایید حذف -->
@@ -707,11 +803,11 @@
     </div>
   </div>
 
-  <!-- پنجره هشدار شماره فاکتور تکراری -->
+  <!-- پنجره هشدار شماره فاکتور تکراری در همان روز -->
   <div class="modal-overlay" id="duplicateModal">
     <div class="modal-box">
-      <div class="modal-title">⚠️ شماره فاکتور تکراری</div>
-      <div class="modal-text">این شماره فاکتور قبلاً ثبت شده است. آیا مطمئنید می‌خواهید دوباره ثبت شود؟</div>
+      <div class="modal-title">⚠️ فیش تکراری در همین تاریخ!</div>
+      <div class="modal-text">این شماره فاکتور قبلاً در <b>همین روز</b> ثبت شده است. آیا مطمئنید می‌خواهید دوباره ثبت شود؟</div>
       <div class="dup-details" id="duplicateInfo"></div>
       <div class="modal-buttons">
         <button class="btn btn-gray" onclick="closeDuplicateModal()">انصراف</button>
@@ -720,13 +816,23 @@
     </div>
   </div>
 
-  <!-- پنجره بیشتر (آمار و جمع ماهانه) -->
+  <!-- پنجره بیشتر (آمار ماهانه + پشتیبان‌گیری) -->
   <div class="modal-overlay" id="moreModal">
     <div class="modal-box">
       <div class="modal-title">
-        <span>📊 گزارش و جمع ماهانه</span>
+        <span>📊 گزارش ماهانه و امکانات</span>
       </div>
       <div class="monthly-list" id="monthlyContainer"></div>
+
+      <div class="backup-section">
+        <div class="backup-title">💾 پشتیبان‌گیری و حفظ اطلاعات</div>
+        <div class="modal-buttons">
+          <button class="btn btn-green" style="font-size: 12px; height: 34px;" onclick="downloadBackup()">دانلود فایل پشتیبان</button>
+          <button class="btn btn-accent" style="font-size: 12px; height: 34px;" onclick="document.getElementById('restoreFileInput').click()">بازگردانی پشتیبان</button>
+          <input type="file" id="restoreFileInput" accept=".json" style="display:none" onchange="restoreBackup(event)">
+        </div>
+      </div>
+
       <div class="modal-buttons">
         <button class="btn btn-purple" onclick="exportMonthlyToNotes()">خروجی ماهانه به نوت</button>
         <button class="btn btn-gray" onclick="closeMoreModal()">بستن</button>
@@ -752,16 +858,16 @@
     "10": "دی", "11": "بهمن", "12": "اسفند"
   };
 
-  let currentSource = "اسنپ";
   let currentFilter = "همه";
   let pendingTrip = null;
+  let trips = [];
+  let selectedIndices = new Set();
+  let viewDate = null;
+  let currentMode = 'trips';
+  let activeDetailIndex = null;
 
-  function getTodayJalali() {
-    const now = new Date();
-    let gy = now.getFullYear();
-    const gm = now.getMonth() + 1;
-    const gd = now.getDate();
-
+  // تبدیل تاریخ میلادی به شمسی
+  function gregorianToJalali(gy, gm, gd) {
     const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
     let gy2 = (gm > 2) ? (gy + 1) : gy;
     let days = 355666 + (365 * gy) + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
@@ -775,14 +881,57 @@
     }
     let jm = (days < 186) ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30);
     let jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
-
     return `${jy}/${String(jm).padStart(2, '0')}/${String(jd).padStart(2, '0')}`;
   }
 
-  function selectSource(val, btnEl) {
-    currentSource = val;
-    document.querySelectorAll('.source-opt').forEach(b => b.classList.remove('active'));
-    btnEl.classList.add('active');
+  function getTodayJalali() {
+    const now = new Date();
+    return gregorianToJalali(now.getFullYear(), now.getMonth() + 1, now.getDate());
+  }
+
+  // جابه‌جایی تاریخ شمسی به روز قبل یا بعد
+  function addDaysJalali(jalaliStr, delta) {
+    const parts = normDate(jalaliStr).split('/').map(Number);
+    if (parts.length !== 3 || isNaN(parts[0])) return getTodayJalali();
+    let [jy, jm, jd] = parts;
+    jd += delta;
+    while (jd < 1) {
+      jm -= 1;
+      if (jm < 1) { jm = 12; jy -= 1; }
+      jd += (jm <= 6) ? 31 : (jm <= 11 ? 30 : 29);
+    }
+    while (true) {
+      const maxD = (jm <= 6) ? 31 : (jm <= 11 ? 30 : 29);
+      if (jd <= maxD) break;
+      jd -= maxD;
+      jm += 1;
+      if (jm > 12) { jm = 1; jy += 1; }
+    }
+    return `${jy}/${String(jm).padStart(2, '0')}/${String(jd).padStart(2, '0')}`;
+  }
+
+  // نمایش یا مخفی کردن فیلد توضیحات مغازه
+  function onSourceChange() {
+    const val = document.getElementById('sourceSelect').value;
+    const descBox = document.getElementById('shopDescContainer');
+    if (val === 'مغازه') {
+      descBox.style.display = 'block';
+    } else {
+      descBox.style.display = 'none';
+      document.getElementById('shopDescInput').value = '';
+    }
+  }
+
+  // دکمه‌های مبلغ سریع
+  function addQuickCost(amount) {
+    const el = document.getElementById('costInput');
+    let raw = toEnglishDigits(el.value).replace(/[^0-9]/g, '');
+    let current = raw ? parseInt(raw, 10) : 0;
+    el.value = money(current + amount);
+  }
+
+  function clearCost() {
+    document.getElementById('costInput').value = '';
   }
 
   function matchFilter(trip) {
@@ -792,14 +941,6 @@
 
   function setFilter(filterVal) {
     currentFilter = filterVal;
-    document.querySelectorAll('.filter-btn').forEach(b => {
-      b.className = 'filter-btn';
-    });
-    if (filterVal === 'همه') document.getElementById('flt-all').classList.add('active-all');
-    else if (filterVal === 'اسنپ') document.getElementById('flt-snapp').classList.add('active-snapp');
-    else if (filterVal === 'سایت') document.getElementById('flt-site').classList.add('active-site');
-    else if (filterVal === 'مغازه') document.getElementById('flt-shop').classList.add('active-shop');
-
     refreshCurrentView();
   }
 
@@ -814,7 +955,7 @@
   }
 
   function toEnglishDigits(str) {
-    return String(str).replace(/[۰-۹٠-٩]/g, d => DIGITS_MAP[d]);
+    return String(str || '').replace(/[۰-۹٠-٩]/g, d => DIGITS_MAP[d]);
   }
 
   function normDate(text) {
@@ -822,7 +963,7 @@
   }
 
   function money(n) {
-    return Number(n).toLocaleString('en-US').replace(/,/g, THOUSAND_SEP);
+    return Number(n || 0).toLocaleString('en-US').replace(/,/g, THOUSAND_SEP);
   }
 
   function getMonthLabel(ym) {
@@ -859,23 +1000,17 @@
   }
 
   setupDateInput(document.getElementById('dateInput'));
-  setupDateInput(document.getElementById('searchInput'));
+  setupDateInput(document.getElementById('editDate'));
   setupMoneyInput(document.getElementById('costInput'));
+  setupMoneyInput(document.getElementById('editCost'));
 
   document.getElementById('invoiceInput').addEventListener('input', function() {
     this.value = toEnglishDigits(this.value);
   });
 
   document.getElementById('nameInput').addEventListener('input', function() {
-    try {
-      localStorage.setItem('saved_driver_name', this.value);
-    } catch (e) {}
+    try { localStorage.setItem('saved_driver_name', this.value); } catch (e) {}
   });
-
-  let trips = [];
-  let selectedIndices = new Set();
-  let viewDate = null;
-  let currentMode = 'trips';
 
   function loadTrips() {
     try {
@@ -901,7 +1036,7 @@
   }
 
   function updateCount() {
-    document.getElementById('countLabel').textContent = "مجموع کل سفرها: " + trips.length;
+    document.getElementById('countLabel').textContent = "کل سفرهای ثبت‌شده: " + trips.length;
   }
 
   function setMessage(text, isError = false) {
@@ -925,17 +1060,18 @@
   function updateDeleteButton() {
     const n = selectedIndices.size;
     const btn = document.getElementById('deleteBtn');
-    btn.textContent = n === 0 ? "حذف انتخاب‌شده" : `حذف (${n})`;
+    btn.textContent = n === 0 ? "حذف انتخابی" : `حذف (${n})`;
   }
 
   const TRIP_COLS = [
-    ["راننده", 0.22],
+    ["راننده", 0.19],
     ["نوع", 0.16],
-    ["تاریخ", 0.24],
-    ["فاکتور", 0.16],
-    ["هزینه", 0.22]
+    ["تاریخ", 0.21],
+    ["فاکتور", 0.14],
+    ["هزینه", 0.18],
+    ["جزئیات", 0.12]
   ];
-  const DAY_COLS = [["تاریخ", 0.36], ["تعداد سفر", 0.22], ["جمع کل", 0.42]];
+  const DAY_COLS = [["تاریخ", 0.36], ["تعداد فیش", 0.24], ["جمع کل روز", 0.40]];
 
   function showTable(items) {
     currentMode = 'trips';
@@ -945,24 +1081,31 @@
     updateDeleteButton();
     setHeader(TRIP_COLS);
 
+    const today = getTodayJalali();
+    document.getElementById('todayBtn').classList.toggle('today-active', viewDate === today);
+
     if (items.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'empty-msg';
-      empty.textContent = "موردی برای نمایش وجود ندارد";
+      empty.textContent = viewDate ? `در تاریخ ${viewDate} فیشی ثبت نشده است` : "موردی برای نمایش وجود ندارد";
       container.appendChild(empty);
       return;
     }
 
     items.forEach((item, i) => {
       const src = item.trip.source || 'اسنپ';
+      const hasDesc = item.trip.desc && item.trip.desc.trim() !== '';
       const row = document.createElement('div');
       row.className = 't-row ' + (i % 2 === 0 ? 'row-a' : 'row-b');
       row.innerHTML = `
-        <div class="td" style="width:22%; color:var(--white);">${item.trip.name}</div>
-        <div class="td" style="width:16%;"><span class="badge-type ${getBadgeClass(src)}">${src}</span></div>
-        <div class="td td-num" style="width:24%; color:var(--muted);">${toEnglishDigits(item.trip.date)}</div>
-        <div class="td td-num" style="width:16%; color:var(--muted);">${toEnglishDigits(item.trip.invoice || '')}</div>
-        <div class="td td-num" style="width:22%; color:var(--green); font-weight:bold;">${money(item.trip.cost)}</div>
+        <div class="td" style="width:19%; color:var(--white);">${item.trip.name}</div>
+        <div class="td" style="width:16%;"><span class="badge-type ${getBadgeClass(src)}">${src}${hasDesc ? ' *' : ''}</span></div>
+        <div class="td td-num" style="width:21%; color:var(--muted); font-size:11px;">${toEnglishDigits(item.trip.date)}</div>
+        <div class="td td-num" style="width:14%; color:var(--muted);">${toEnglishDigits(item.trip.invoice || '')}</div>
+        <div class="td td-num" style="width:18%; color:var(--green); font-weight:bold;">${money(item.trip.cost)}</div>
+        <div class="td" style="width:12%;">
+          <button type="button" class="detail-btn" onclick="openDetailsModal(event, ${item.originalIndex})">👁</button>
+        </div>
       `;
       row.onclick = () => {
         if (selectedIndices.has(item.originalIndex)) {
@@ -978,6 +1121,96 @@
     });
   }
 
+  // پنجره جزئیات و ویرایش
+  function openDetailsModal(e, index) {
+    e.stopPropagation();
+    const t = trips[index];
+    if (!t) return;
+    activeDetailIndex = index;
+
+    const src = t.source || 'اسنپ';
+    const descHtml = (t.desc && t.desc.trim() !== '')
+      ? `<br>• توضیحات: <b style="color:var(--gold);">${t.desc}</b>`
+      : `<br>• توضیحات: <span style="color:var(--muted);">ثبت نشده</span>`;
+
+    document.getElementById('detailsViewBox').innerHTML = `
+      • نام راننده: <b>${t.name}</b><br>
+      • نوع سرویس: <b>${src}</b><br>
+      • تاریخ ثبت: <b class="td-num">${normDate(t.date)}</b><br>
+      • شماره فاکتور: <b class="td-num">${toEnglishDigits(t.invoice)}</b><br>
+      • مبلغ کرایه: <b class="td-num" style="color:#4ade80;">${money(t.cost)} تومان</b>
+      ${descHtml}
+    `;
+
+    cancelEditTrip();
+    document.getElementById('detailsModal').style.display = 'flex';
+  }
+
+  function closeDetailsModal() {
+    activeDetailIndex = null;
+    document.getElementById('detailsModal').style.display = 'none';
+  }
+
+  function onEditSourceChange() {
+    const val = document.getElementById('editSource').value;
+    const descEl = document.getElementById('editDesc');
+    descEl.style.display = (val === 'مغازه') ? 'block' : 'none';
+  }
+
+  function enableEditTrip() {
+    if (activeDetailIndex === null) return;
+    const t = trips[activeDetailIndex];
+    document.getElementById('editName').value = t.name;
+    document.getElementById('editSource').value = t.source || 'اسنپ';
+    document.getElementById('editInvoice').value = toEnglishDigits(t.invoice);
+    document.getElementById('editDate').value = normDate(t.date);
+    document.getElementById('editCost').value = money(t.cost);
+    document.getElementById('editDesc').value = t.desc || '';
+    onEditSourceChange();
+
+    document.getElementById('detailsViewBox').style.display = 'none';
+    document.getElementById('detailsFooterBtns').style.display = 'none';
+    document.getElementById('detailsEditBox').style.display = 'flex';
+    document.getElementById('editFooterBtns').style.display = 'flex';
+  }
+
+  function cancelEditTrip() {
+    document.getElementById('detailsViewBox').style.display = 'block';
+    document.getElementById('detailsFooterBtns').style.display = 'flex';
+    document.getElementById('detailsEditBox').style.display = 'none';
+    document.getElementById('editFooterBtns').style.display = 'none';
+  }
+
+  function saveEditedTrip() {
+    if (activeDetailIndex === null) return;
+    const name = document.getElementById('editName').value.trim();
+    const source = document.getElementById('editSource').value;
+    const invoice = toEnglishDigits(document.getElementById('editInvoice').value.trim());
+    const date = normDate(document.getElementById('editDate').value);
+    const costRaw = toEnglishDigits(document.getElementById('editCost').value).replace(/,/g, '').trim();
+    const desc = (source === 'مغازه') ? document.getElementById('editDesc').value.trim() : '';
+
+    if (!name || !invoice || date.length !== 10 || !costRaw) {
+      setMessage("اطلاعات ویرایش کامل نیست", true);
+      return;
+    }
+
+    trips[activeDetailIndex] = {
+      name,
+      source,
+      invoice,
+      date,
+      cost: parseInt(costRaw, 10),
+      desc
+    };
+
+    saveTrips();
+    closeDetailsModal();
+    refreshCurrentView();
+    setMessage("تغییرات فیش با موفقیت ذخیره شد");
+  }
+
+  // نمایش جمع روزها (با قابلیت کلیک برای باز شدن همان روز)
   function showDaily() {
     currentMode = 'daily';
     const days = {};
@@ -989,7 +1222,6 @@
       days[d][1] += t.cost;
     });
 
-    viewDate = null;
     const container = document.getElementById('rowsContainer');
     container.innerHTML = '';
     selectedIndices.clear();
@@ -1014,20 +1246,228 @@
       const row = document.createElement('div');
       row.className = 't-row ' + (i % 2 === 0 ? 'row-a' : 'row-b');
       row.innerHTML = `
-        <div class="td td-num" style="width:36%; color:var(--muted);">${d}</div>
-        <div class="td td-num" style="width:22%; font-size:14px; color:var(--white);">${count}</div>
-        <div class="td td-num" style="width:42%; font-size:14px; color:var(--green); font-weight:bold;">${money(total)}</div>
+        <div class="td td-num" style="width:36%; color:var(--gold); font-weight:bold;">${d}</div>
+        <div class="td td-num" style="width:24%; font-size:13px; color:var(--white);">${count} فیش</div>
+        <div class="td td-num" style="width:40%; font-size:13px; color:var(--green); font-weight:bold;">${money(total)}</div>
       `;
       row.onclick = () => {
-        document.getElementById('searchInput').value = d;
         showDate(d);
       };
       container.appendChild(row);
     });
 
-    setMessage(`جمع کل ${filterTitle}: ${money(grand)} (${sortedDates.length} روز)`);
+    setMessage(`جمع ${filterTitle}: ${money(grand)} (${sortedDates.length} روز) - روی روز دلخواه بزنید`);
   }
 
+  function addTrip() {
+    const name = document.getElementById('nameInput').value.trim();
+    const source = document.getElementById('sourceSelect').value;
+    const desc = (source === 'مغازه') ? document.getElementById('shopDescInput').value.trim() : '';
+    const date = normDate(document.getElementById('dateInput').value);
+    const invoice = toEnglishDigits(document.getElementById('invoiceInput').value.trim());
+    const costText = toEnglishDigits(document.getElementById('costInput').value).replace(/,/g, '').trim();
+
+    if (!name || !date || !invoice || !costText) {
+      setMessage("لطفاً نام، تاریخ، شماره فاکتور و هزینه را وارد کنید", true);
+      return;
+    }
+    if (date.length !== 10) {
+      setMessage("فرمت تاریخ باید مثل 1405/08/23 باشد", true);
+      return;
+    }
+
+    const newTrip = {
+      name: name,
+      source: source,
+      desc: desc,
+      date: date,
+      invoice: invoice,
+      cost: parseInt(costText, 10)
+    };
+
+    // مرحله ۱: بررسی تکراری بودن شماره فاکتور *فقط در همان تاریخ*
+    const existingSameDayTrip = trips.find(
+      t => normDate(t.date) === date && toEnglishDigits(String(t.invoice)).trim() === invoice
+    );
+
+    if (existingSameDayTrip) {
+      pendingTrip = newTrip;
+      document.getElementById('duplicateInfo').innerHTML = `
+        <b>مشخصات فیش ثبت‌شده در تاریخ ${date}:</b><br>
+        • شماره فاکتور: <b class="td-num">${invoice}</b><br>
+        • راننده: ${existingSameDayTrip.name} | نوع: ${existingSameDayTrip.source || 'اسنپ'}<br>
+        • هزینه: <span class="td-num" style="color:#4ade80;">${money(existingSameDayTrip.cost)}</span>
+        ${existingSameDayTrip.desc ? `<br>• توضیحات: ${existingSameDayTrip.desc}` : ''}
+      `;
+      document.getElementById('duplicateModal').style.display = 'flex';
+      return;
+    }
+
+    finalizeAddTrip(newTrip);
+  }
+
+  function closeDuplicateModal() {
+    pendingTrip = null;
+    document.getElementById('duplicateModal').style.display = 'none';
+  }
+
+  function confirmDuplicateAdd() {
+    if (!pendingTrip) return;
+    const tripToSave = pendingTrip;
+    closeDuplicateModal();
+    finalizeAddTrip(tripToSave);
+  }
+
+  function finalizeAddTrip(tripObj) {
+    try { localStorage.setItem('saved_driver_name', tripObj.name); } catch (e) {}
+
+    trips.push(tripObj);
+
+    if (!saveTrips()) {
+      setMessage("خطا در ذخیره‌سازی اطلاعات", true);
+      return;
+    }
+
+    updateCount();
+    document.getElementById('invoiceInput').value = '';
+    document.getElementById('costInput').value = '';
+    document.getElementById('shopDescInput').value = '';
+
+    if (currentFilter !== "همه" && currentFilter !== tripObj.source) {
+      currentFilter = "همه";
+      document.getElementById('filterSelect').value = "همه";
+    }
+
+    // مرحله ۲: نمایش فقط فیش‌های همان روز ثبت‌شده
+    showDate(tripObj.date);
+  }
+
+  // ناوبری سریع بین روزها
+  function goToToday() {
+    const today = getTodayJalali();
+    document.getElementById('dateInput').value = today;
+    document.getElementById('searchInput').value = '';
+    showDate(today);
+  }
+
+  function shiftViewDate(delta) {
+    const baseDate = viewDate || getTodayJalali();
+    const nextDate = addDaysJalali(baseDate, delta);
+    showDate(nextDate);
+  }
+
+  // جستجوی هوشمند (هم تاریخ، هم شماره فاکتور، هم توضیحات)
+  function smartSearch() {
+    const q = toEnglishDigits(document.getElementById('searchInput').value).trim();
+    if (!q) {
+      goToToday();
+      return;
+    }
+
+    // اگر فرمت تاریخ کامل بود
+    if (/^\d{4}[\/\-]\d{2}[\/\-]\d{2}$/.test(q)) {
+      showDate(normDate(q));
+      return;
+    }
+
+    // جستجو بر اساس شماره فاکتور یا توضیحات یا نام
+    viewDate = null;
+    const found = [];
+    let total = 0;
+    trips.forEach((t, idx) => {
+      if (!matchFilter(t)) return;
+      const inv = toEnglishDigits(t.invoice || '');
+      const d = normDate(t.date || '');
+      const desc = (t.desc || '');
+      const name = (t.name || '');
+      if (inv === q || inv.includes(q) || d.includes(q) || desc.includes(q) || name.includes(q)) {
+        found.push({ trip: t, originalIndex: idx });
+        total += t.cost;
+      }
+    });
+
+    showTable(found);
+    if (found.length === 0) {
+      setMessage(`موردی برای «${q}» یافت نشد`, true);
+    } else {
+      setMessage(`نتایج جستجو (${found.length} فیش) | جمع: ${money(total)}`);
+    }
+  }
+
+  function showDate(date) {
+    viewDate = date;
+    const found = [];
+    let total = 0;
+    trips.forEach((t, idx) => {
+      if (normDate(t.date) === date && matchFilter(t)) {
+        found.push({ trip: t, originalIndex: idx });
+        total += t.cost;
+      }
+    });
+
+    showTable(found);
+    const filterSuffix = currentFilter === "همه" ? "" : ` (${currentFilter})`;
+    const isToday = (date === getTodayJalali());
+    const dayLabel = isToday ? `امروز (${date})` : `تاریخ ${date}`;
+
+    if (found.length === 0) {
+      setMessage(`${dayLabel}${filterSuffix}: فیشی ثبت نشده (جمع: 0)`);
+    } else {
+      setMessage(`${dayLabel}${filterSuffix}: ${found.length} فیش | جمع: ${money(total)}`);
+    }
+  }
+
+  function renderAllTrips() {
+    viewDate = null;
+    const filteredItems = [];
+    let total = 0;
+    trips.forEach((t, idx) => {
+      if (matchFilter(t)) {
+        filteredItems.push({ trip: t, originalIndex: idx });
+        total += t.cost;
+      }
+    });
+    showTable(filteredItems);
+    const filterTitle = currentFilter === "همه" ? "همه روزها" : `همه روزها (${currentFilter})`;
+    setMessage(filteredItems.length > 0 ? `${filterTitle}: ${filteredItems.length} فیش | جمع: ${money(total)}` : `${filterTitle} (0 مورد)`);
+  }
+
+  function showAll() {
+    document.getElementById('searchInput').value = '';
+    renderAllTrips();
+  }
+
+  function askDelete() {
+    const n = selectedIndices.size;
+    if (n === 0) {
+      setMessage("ابتدا روی یک ردیف بزنید تا برای حذف انتخاب شود", true);
+      return;
+    }
+    document.getElementById('confirmText').textContent = `آیا ${n} فیش انتخاب‌شده حذف شود؟`;
+    document.getElementById('confirmModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+  }
+
+  function deleteSelected() {
+    const count = selectedIndices.size;
+    trips = trips.filter((_, idx) => !selectedIndices.has(idx));
+    closeModal();
+
+    const saved = saveTrips();
+    updateCount();
+    refreshCurrentView();
+
+    if (saved) {
+      setMessage(`${count} فیش حذف شد`);
+    } else {
+      setMessage("خطا در ذخیره‌سازی اطلاعات", true);
+    }
+  }
+
+  // گزارش ماهانه
   function getMonthlyData() {
     const months = {};
     trips.forEach(t => {
@@ -1061,7 +1501,7 @@
         card.className = 'month-card';
         card.innerHTML = `
           <div class="month-top">
-            <span class="month-name">${getMonthLabel(ym)} <span style="color:var(--muted); font-size:12px;">(${m.count} سفر)</span></span>
+            <span class="month-name">${getMonthLabel(ym)} <span style="color:var(--muted); font-size:11px;">(${m.count} فیش)</span></span>
             <span class="month-total td-num">${money(m.total)}</span>
           </div>
           <div class="month-sub">
@@ -1080,165 +1520,54 @@
     document.getElementById('moreModal').style.display = 'none';
   }
 
-  function addTrip() {
-    const name = document.getElementById('nameInput').value.trim();
-    const date = normDate(document.getElementById('dateInput').value);
-    const invoice = toEnglishDigits(document.getElementById('invoiceInput').value.trim());
-    const costText = toEnglishDigits(document.getElementById('costInput').value).replace(/,/g, '').trim();
-
-    if (!name || !date || !invoice || !costText) {
-      setMessage("لطفاً تمام فیلدها را پر کنید", true);
+  // پشتیبان‌گیری و بازیابی
+  function downloadBackup() {
+    if (trips.length === 0) {
+      setMessage("اطلاعاتی برای پشتیبان‌گیری وجود ندارد", true);
       return;
     }
-    if (date.length !== 10) {
-      setMessage("فرمت تاریخ باید مثل 1405/08/23 باشد", true);
-      return;
-    }
-
-    const newTrip = {
-      name: name,
-      source: currentSource,
-      date: date,
-      invoice: invoice,
-      cost: parseInt(costText, 10)
+    const backupObj = {
+      version: 2,
+      date: getTodayJalali(),
+      driverName: document.getElementById('nameInput').value,
+      trips: trips
     };
-
-    const existingTrip = trips.find(t => toEnglishDigits(String(t.invoice)).trim() === invoice);
-    if (existingTrip) {
-      pendingTrip = newTrip;
-      document.getElementById('duplicateInfo').innerHTML = `
-        <b>مشخصات فاکتور قبلی (${invoice}):</b><br>
-        • راننده: ${existingTrip.name}<br>
-        • نوع: ${existingTrip.source || 'اسنپ'} | تاریخ: <span class="td-num">${existingTrip.date}</span><br>
-        • هزینه: <span class="td-num" style="color:#4ade80;">${money(existingTrip.cost)}</span>
-      `;
-      document.getElementById('duplicateModal').style.display = 'flex';
-      return;
-    }
-
-    finalizeAddTrip(newTrip);
+    const blob = new Blob([JSON.stringify(backupObj, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `trips-backup-${getTodayJalali().replace(/\//g, '-')}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setMessage("فایل پشتیبان دانلود شد");
   }
 
-  function closeDuplicateModal() {
-    pendingTrip = null;
-    document.getElementById('duplicateModal').style.display = 'none';
-  }
-
-  function confirmDuplicateAdd() {
-    if (!pendingTrip) return;
-    const tripToSave = pendingTrip;
-    closeDuplicateModal();
-    finalizeAddTrip(tripToSave);
-  }
-
-  function finalizeAddTrip(tripObj) {
-    try {
-      localStorage.setItem('saved_driver_name', tripObj.name);
-    } catch (e) {}
-
-    trips.push(tripObj);
-
-    if (!saveTrips()) {
-      setMessage("خطا در ذخیره‌سازی اطلاعات", true);
-      return;
-    }
-
-    updateCount();
-    document.getElementById('invoiceInput').value = '';
-    document.getElementById('costInput').value = '';
-
-    if (currentFilter !== "همه" && currentFilter !== tripObj.source) {
-      setFilter("همه");
-    }
-
-    document.getElementById('searchInput').value = tripObj.date;
-    searchDate();
-  }
-
-  function searchDate() {
-    const date = normDate(document.getElementById('searchInput').value);
-    if (!date) {
-      setMessage("لطفاً یک تاریخ وارد کنید", true);
-      return;
-    }
-    showDate(date);
-  }
-
-  function showDate(date) {
-    viewDate = date;
-    const found = [];
-    let total = 0;
-    trips.forEach((t, idx) => {
-      if (normDate(t.date) === date && matchFilter(t)) {
-        found.push({ trip: t, originalIndex: idx });
-        total += t.cost;
+  function restoreBackup(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        const restoredTrips = Array.isArray(parsed) ? parsed : parsed.trips;
+        if (!Array.isArray(restoredTrips)) throw new Error("Invalid format");
+        trips = restoredTrips;
+        saveTrips();
+        updateCount();
+        closeMoreModal();
+        goToToday();
+        setMessage(`${trips.length} فیش با موفقیت بازیابی شد`);
+      } catch (err) {
+        setMessage("فایل پشتیبان معتبر نیست", true);
       }
-    });
-
-    showTable(found);
-    const filterSuffix = currentFilter === "همه" ? "" : ` (${currentFilter})`;
-    if (found.length === 0) {
-      setMessage(`سفری در این تاریخ${filterSuffix} یافت نشد`, true);
-    } else {
-      setMessage(`جمع هزینه${filterSuffix}: ${money(total)} (${found.length} مورد)`);
-    }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
   }
 
-  function renderAllTrips() {
-    viewDate = null;
-    const filteredItems = [];
-    let total = 0;
-    trips.forEach((t, idx) => {
-      if (matchFilter(t)) {
-        filteredItems.push({ trip: t, originalIndex: idx });
-        total += t.cost;
-      }
-    });
-    showTable(filteredItems);
-    const filterTitle = currentFilter === "همه" ? "همه سفرها" : `فیلتر ${currentFilter}`;
-    setMessage(filteredItems.length > 0 ? `${filterTitle} (${filteredItems.length}) | جمع: ${money(total)}` : `${filterTitle} (0 مورد)`);
-  }
-
-  function showAll() {
-    document.getElementById('searchInput').value = '';
-    renderAllTrips();
-  }
-
-  function askDelete() {
-    const n = selectedIndices.size;
-    if (n === 0) {
-      setMessage("ابتدا روی یک ردیف بزنید تا انتخاب شود", true);
-      return;
-    }
-    document.getElementById('confirmText').textContent = `آیا ${n} سفر انتخاب‌شده حذف شود؟`;
-    document.getElementById('confirmModal').style.display = 'flex';
-  }
-
-  function closeModal() {
-    document.getElementById('confirmModal').style.display = 'none';
-  }
-
-  function deleteSelected() {
-    const count = selectedIndices.size;
-    trips = trips.filter((_, idx) => !selectedIndices.has(idx));
-    closeModal();
-
-    const saved = saveTrips();
-    updateCount();
-
-    if (viewDate === null) {
-      renderAllTrips();
-    } else {
-      showDate(viewDate);
-    }
-
-    if (saved) {
-      setMessage(`${count} سفر حذف شد`);
-    } else {
-      setMessage("خطا در ذخیره‌سازی اطلاعات", true);
-    }
-  }
-
+  // خروجی به نوت
   async function shareOrCopyText(text, title) {
     if (navigator.share) {
       try {
@@ -1310,7 +1639,7 @@
       sortedDates.forEach(d => {
         const [count, total] = days[d];
         grand += total;
-        text += `📅 تاریخ: ${d} | تعداد: ${count} سفر | جمع: ${money(total)}\n`;
+        text += `📅 تاریخ: ${d} | تعداد: ${count} فیش | جمع: ${money(total)}\n`;
       });
       text += "━━━━━━━━━━━━━━━\n";
       text += `💰 جمع کل: ${money(grand)} (${sortedDates.length} روز)`;
@@ -1320,17 +1649,17 @@
 
       if (selectedIndices.size > 0) {
         listToExport = trips.filter((_, idx) => selectedIndices.has(idx));
-        title = `📋 گزارش سفرهای انتخاب‌شده (${listToExport.length} مورد)`;
+        title = `📋 گزارش فیش‌های انتخاب‌شده (${listToExport.length} مورد)`;
       } else if (viewDate !== null) {
         listToExport = trips.filter(t => normDate(t.date) === viewDate && matchFilter(t));
-        title = `📋 گزارش سفرهای تاریخ ${viewDate}${filterSuffix}`;
+        title = `📋 گزارش فیش‌های تاریخ ${viewDate}${filterSuffix}`;
       } else {
         listToExport = trips.filter(t => matchFilter(t));
-        title = `📋 گزارش سفرها${filterSuffix} (${listToExport.length} مورد)`;
+        title = `📋 گزارش کل فیش‌ها${filterSuffix} (${listToExport.length} مورد)`;
       }
 
       if (listToExport.length === 0) {
-        setMessage("موردی برای خروجی گرفتن وجود ندارد", true);
+        setMessage("در این بخش فیشی برای خروجی گرفتن وجود ندارد", true);
         return;
       }
 
@@ -1339,7 +1668,8 @@
       listToExport.forEach((t, i) => {
         total += t.cost;
         const src = t.source || "اسنپ";
-        text += `${i + 1}. راننده: ${t.name} | نوع: ${src} | تاریخ: ${normDate(t.date)} | فاکتور: ${toEnglishDigits(t.invoice)} | هزینه: ${money(t.cost)}\n`;
+        const descPart = (t.desc && t.desc.trim() !== '') ? ` | توضیحات: ${t.desc}` : '';
+        text += `${i + 1}. راننده: ${t.name} | نوع: ${src}${descPart} | تاریخ: ${normDate(t.date)} | فاکتور: ${toEnglishDigits(t.invoice)} | هزینه: ${money(t.cost)}\n`;
       });
       text += "━━━━━━━━━━━━━━━\n";
       text += `💰 جمع کل هزینه: ${money(total)}`;
@@ -1348,10 +1678,12 @@
     await shareOrCopyText(text, "گزارش سفرها");
   }
 
-  document.getElementById('dateInput').value = getTodayJalali();
+  // راه‌اندازی اولیه: تنظیم تاریخ امروز و نمایش فقط فیش‌های امروز
+  const todayDate = getTodayJalali();
+  document.getElementById('dateInput').value = todayDate;
   loadTrips();
   updateCount();
-  renderAllTrips();
+  showDate(todayDate);
 </script>
 </body>
 </html>
